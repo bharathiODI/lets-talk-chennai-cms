@@ -54,7 +54,7 @@ export async function POST(req: Request) {
 
     // Save Submission in lets-talk-submissions Collection
     const newSubmission = await payload.create({
-      collection: 'lets-talk-submissions',
+     collection: 'lets-talk-submissions' as any,
       data: {
         title,
         categoryType: categoryType as any,

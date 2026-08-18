@@ -73,6 +73,7 @@ export interface Config {
     categories: Category;
     users: User;
     'lets-talks-chennai': LetsTalksChennai;
+    talkcategories: Talkcategory;
     'event-form-fields': EventFormField;
     'summer-registrations': SummerRegistration;
     'event-dashboard': EventDashboard;
@@ -93,6 +94,7 @@ export interface Config {
     categories: CategoriesSelect<false> | CategoriesSelect<true>;
     users: UsersSelect<false> | UsersSelect<true>;
     'lets-talks-chennai': LetsTalksChennaiSelect<false> | LetsTalksChennaiSelect<true>;
+    talkcategories: TalkcategoriesSelect<false> | TalkcategoriesSelect<true>;
     'event-form-fields': EventFormFieldsSelect<false> | EventFormFieldsSelect<true>;
     'summer-registrations': SummerRegistrationsSelect<false> | SummerRegistrationsSelect<true>;
     'event-dashboard': EventDashboardSelect<false> | EventDashboardSelect<true>;
@@ -501,7 +503,11 @@ export interface LetsTalksChennai {
     };
     [k: string]: unknown;
   } | null;
-  eventFields?: {
+  eventFields: {
+    /**
+     * Select dynamic category created from Categories collection.
+     */
+    TalkCategories: (number | Talkcategory)[];
     shortDescription?: string | null;
     familyFriendly?: boolean | null;
     featured?: boolean | null;
@@ -544,6 +550,20 @@ export interface LetsTalksChennai {
   updatedAt: string;
   createdAt: string;
   _status?: ('draft' | 'published') | null;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "talkcategories".
+ */
+export interface Talkcategory {
+  id: number;
+  name: string;
+  /**
+   * Frontend URL or tab filtering-ku use aagum (e.g. people-of-chennai)
+   */
+  slug: string;
+  updatedAt: string;
+  createdAt: string;
 }
 /**
  * This interface was referenced by `Config`'s JSON-Schema
@@ -597,6 +617,7 @@ export interface SummerRegistration {
   name: string;
   email: string;
   phone?: string | null;
+  company?: string | null;
   /**
    * Dynamic form values submitted by the user
    */
@@ -610,12 +631,12 @@ export interface SummerRegistration {
     | boolean
     | null;
   /**
-   * Uploaded images, reels, documents from dynamic dynamic fields
+   * Uploaded images, reels, or documents from dynamic fields
    */
   attachments?:
     | {
         /**
-         * Target field identifier (e.g., "featuredImage", "supportingDocument")
+         * Target field identifier
          */
         fieldName?: string | null;
         file?: (number | null) | Media;
@@ -1012,6 +1033,10 @@ export interface PayloadLockedDocument {
         value: number | LetsTalksChennai;
       } | null)
     | ({
+        relationTo: 'talkcategories';
+        value: number | Talkcategory;
+      } | null)
+    | ({
         relationTo: 'event-form-fields';
         value: number | EventFormField;
       } | null)
@@ -1328,6 +1353,7 @@ export interface LetsTalksChennaiSelect<T extends boolean = true> {
   eventFields?:
     | T
     | {
+        TalkCategories?: T;
         shortDescription?: T;
         familyFriendly?: T;
         featured?: T;
@@ -1360,6 +1386,16 @@ export interface LetsTalksChennaiSelect<T extends boolean = true> {
   updatedAt?: T;
   createdAt?: T;
   _status?: T;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "talkcategories_select".
+ */
+export interface TalkcategoriesSelect<T extends boolean = true> {
+  name?: T;
+  slug?: T;
+  updatedAt?: T;
+  createdAt?: T;
 }
 /**
  * This interface was referenced by `Config`'s JSON-Schema
@@ -1398,6 +1434,7 @@ export interface SummerRegistrationsSelect<T extends boolean = true> {
   name?: T;
   email?: T;
   phone?: T;
+  company?: T;
   values?: T;
   attachments?:
     | T

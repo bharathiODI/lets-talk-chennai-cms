@@ -100,11 +100,9 @@ export const LetsTalkChennai: CollectionConfig<'lets-talks-chennai'> = {
                         Code,
                         MediaBlock,
                         VideoBlock,
-
                         AboutEventBlock,
                         EventRegistrationFormBlock,
                         EventDetailsBlock,
-
                         VideoGalleryBlock,
                         GalleryVisualDiaryBlock,
                       ],
@@ -131,6 +129,17 @@ export const LetsTalkChennai: CollectionConfig<'lets-talks-chennai'> = {
               type: 'group',
               label: 'General Event Info',
               fields: [
+                {
+                  name: 'TalkCategories',
+                  type: 'relationship',
+                  relationTo: 'talkcategories',
+                  required: true,
+                  hasMany: true,
+                  label: 'talk Category',
+                  admin: {
+                    description: 'Select dynamic category created from Categories collection.',
+                  },
+                },
                 {
                   name: 'shortDescription',
                   type: 'textarea',

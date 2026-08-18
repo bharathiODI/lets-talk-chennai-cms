@@ -1,153 +1,3 @@
-// import { renderText } from './renderText'
-
-// import AboutEventBlockComponent from '@/blocks/AboutEvent/Component'
-// import { AboutSummerFestBlockComponent } from '@/blocks/AboutSummerFestBlock/Component'
-// import EventListingComponent from '@/blocks/eventListing/Component'
-// import EventRegistrationBlockComponent from '@/blocks/EventRegistrationForm/coponents'
-// import FeaturedEventBlockComponent from '@/blocks/EventsDetails/Component'
-// import { GalleryVisualDiaryBlockComponent } from '@/blocks/galleryVisualDiary/Component'
-// import ImageBlockComponent from '@/blocks/imageBlock/Component'
-// import { MediaCarouselBlock } from '@/blocks/MediaCarousel/Component'
-// import { VideoGalleryBlockComponent } from '@/blocks/videoGallery/Component'
-// import CodeBlock from './blocks/CodeBlock'
-// import ImageBlock from './blocks/ImageBlock'
-// import MediaBlock from './blocks/MediaBlock'
-// import VideoBlock from './blocks/VideoBlock'
-
-// export function renderNode(node: any, idx: number, eventData?: any): React.ReactNode {
-//   /* ------------------------------------------------
-//    DEBUG
-//   ------------------------------------------------ */
-//   // console.log('LEXICAL NODE =>', node)
-
-//   switch (node.type) {
-//     /* ------------------------------------------------
-//      PARAGRAPH
-//     ------------------------------------------------ */
-//     case 'paragraph':
-//       return (
-//         <p key={idx} className="mb-0 text-lg leading-8 text-gray-700 paragaphhlexical">
-//           {renderText(node.children)}
-//         </p>
-//       )
-
-//     /* ------------------------------------------------
-//      HEADING
-//     ------------------------------------------------ */
-//     case 'heading': {
-//       const Tag = (node.tag || 'h2') as React.ElementType
-
-//       return (
-//         <Tag
-//           key={idx}
-//           className={` paragaphhlexical text-center blog-${node.tag || 'h2'} text-[#005b70] text-3xl font-bold tracking-wide  mt-0 mb-0`}
-//         >
-//           {renderText(node.children)}
-//         </Tag>
-//       )
-//     }
-
-//     /* ------------------------------------------------
-//      LIST
-//     ------------------------------------------------ */
-//     case 'list': {
-//       const ListTag = node.listType === 'number' ? 'ol' : 'ul'
-
-//       return (
-//         <ListTag
-//           key={idx}
-//           className={`pl-6 mb-6 ${node.listType === 'number' ? 'list-decimal' : 'list-disc'}`}
-//         >
-//           {node.children?.map((child: any, i: number) => (
-//             <li key={i}>{renderText(child.children)}</li>
-//           ))}
-//         </ListTag>
-//       )
-//     }
-
-//     /* ------------------------------------------------
-//      IMAGE / UPLOAD
-//     ------------------------------------------------ */
-//     case 'upload':
-//       return <ImageBlock key={idx} node={node} />
-
-//     /* ------------------------------------------------
-//      BLOCKS
-//     ------------------------------------------------ */
-//     case 'block': {
-//       const blockType = node.fields?.blockType
-
-//       // console.log('BLOCK TYPE =>', blockType)
-
-//       /* ---------------- CODE BLOCK ---------------- */
-//       if (blockType === 'code' || blockType === 'codeBlock') {
-//         return <CodeBlock key={idx} node={node} />
-//       }
-
-//       /* ---------------- VIDEO BLOCK ---------------- */
-//       if (blockType === 'video' || blockType === 'videoBlock') {
-//         return <VideoBlock key={idx} node={node} />
-//       }
-
-//       /* ---------------- MEDIA BLOCK ---------------- */
-//       if (blockType === 'media' || blockType === 'mediaBlock') {
-//         return <MediaBlock key={idx} node={node} />
-//       }
-
-//       if (blockType === 'eventListing') {
-//         return <EventListingComponent key={idx} {...node.fields} />
-//       }
-
-     
-
-
-//       if (blockType === 'imageBlock') {
-//         return <ImageBlockComponent key={idx} {...node.fields} />
-//       }
-
-//       if (blockType === 'aboutEventBlock') {
-//         return <AboutEventBlockComponent key={idx} {...node.fields} />
-//       }
-
-//       /* =========================================================
-//          NEW EVENT REGISTRATION BLOCK
-//       ========================================================= */
-
-//       if (blockType === 'eventRegistrationFormBlock') {
-//         return (
-//           <EventRegistrationBlockComponent key={idx} block={node.fields} eventData={eventData} />
-//         )
-//       }
-
-//       if (blockType === 'mediaCarousel') {
-//         return <MediaCarouselBlock key={idx} {...node.fields} />
-//       }
-//       if (blockType === 'aboutSummerFestBlock') {
-//         return <AboutSummerFestBlockComponent key={idx} {...node.fields} />
-//       }
-
-//       if (blockType === 'eventDetailsBlock') {
-//         return <FeaturedEventBlockComponent key={idx} {...node.fields} />
-//       }
-
-
-//       if (blockType === 'videoGalleryBlock') {
-//         return <VideoGalleryBlockComponent key={idx} {...node.fields} />
-//       }
-//       if (blockType === 'galleryVisualDiary') {
-//         return <GalleryVisualDiaryBlockComponent key={idx} {...node.fields} />
-//       }
-
-//       return null
-//     }
-
-//     /* ------------------------------------------------
-//      DEFAULT
-//     ------------------------------------------------ */
-//     default:
-//       return null
-//   }
-// }
 
 import { renderText } from './renderText'
 
@@ -165,6 +15,7 @@ import ImageBlock from './blocks/ImageBlock'
 import MediaBlock from './blocks/MediaBlock'
 import VideoBlock from './blocks/VideoBlock'
 import LetsTalkChennaiComponent from '@/blocks/LetsTalkBanner/Component'
+import AboutChennaiBlockComponent from '@/blocks/AboutChennaiBlock/Component'
 
 export function renderNode(node: any, idx: number, eventData?: any): React.ReactNode {
   /* ------------------------------------------------
@@ -258,12 +109,15 @@ export function renderNode(node: any, idx: number, eventData?: any): React.React
       if (blockType === 'aboutEventBlock') {
         return <AboutEventBlockComponent key={idx} {...node.fields} />
       }
-            if (blockType === 'lets-talk-chennai-banner') {
+      if (blockType === 'lets-talk-chennai-banner') {
         return <LetsTalkChennaiComponent key={idx} {...node.fields} />
       }
 
+      if (blockType === 'aboutChennaiBlock') {
+        return <AboutChennaiBlockComponent key={idx} {...node.fields} />
+      }
 
-      
+
 
       /* =========================================================
          EVENT REGISTRATION BLOCK (Multiple Name Fallbacks)

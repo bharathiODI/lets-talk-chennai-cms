@@ -9,7 +9,7 @@ export async function GET() {
     })
     const registrations = await payload.find({
       collection: 'summer-registrations',
-      limit: 100,
+      limit: 1000,
       depth: 3,
     })
     return NextResponse.json({

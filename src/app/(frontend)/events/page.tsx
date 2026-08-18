@@ -1,7 +1,6 @@
 import { ArattaiArchive } from '@/components/Summer/ArattaiArchive'
 import configPromise from '@/payload.config'
 import Image from 'next/image'
-import Link from 'next/link'
 import type { Metadata } from 'next/types'
 import { getPayload } from 'payload'
 import AccodomationBanner from '../../../assets/images/withoutformherobanner.png'
@@ -15,7 +14,7 @@ export default async function Page() {
 
   const eventsRes = await payload.find({
     collection: 'lets-talks-chennai',
-    limit: 100,
+    limit: 10000,
     sort: '-createdAt',
   })
 
