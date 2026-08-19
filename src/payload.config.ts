@@ -73,12 +73,10 @@ export default buildConfig({
     pool: {
       max: 10,
       connectionString: process.env.DATABASE_URI,
-
-      connectionTimeoutMillis: 300000,
-      idleTimeoutMillis: 300000,
+      connectionTimeoutMillis: 5000,
+      idleTimeoutMillis: 30000,
     },
   }),
-
   collections: [
     Pages,
     Posts,

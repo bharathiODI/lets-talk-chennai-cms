@@ -16,6 +16,7 @@ import MediaBlock from './blocks/MediaBlock'
 import VideoBlock from './blocks/VideoBlock'
 import LetsTalkChennaiComponent from '@/blocks/LetsTalkBanner/Component'
 import AboutChennaiBlockComponent from '@/blocks/AboutChennaiBlock/Component'
+import { AboutUsBlockComponent } from '@/blocks/AboutUs/Component'
 
 export function renderNode(node: any, idx: number, eventData?: any): React.ReactNode {
   /* ------------------------------------------------
@@ -117,6 +118,10 @@ export function renderNode(node: any, idx: number, eventData?: any): React.React
         return <AboutChennaiBlockComponent key={idx} {...node.fields} />
       }
 
+      if (blockType === 'aboutUs') {
+        return <AboutUsBlockComponent key={idx} {...node.fields} />
+      }
+    
 
 
       /* =========================================================

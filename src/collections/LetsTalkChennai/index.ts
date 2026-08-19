@@ -30,6 +30,7 @@ import {
   InlineToolbarFeature,
   lexicalEditor,
 } from '@payloadcms/richtext-lexical'
+import { AboutUsBlock } from '@/blocks/AboutUs/config'
 
 export const LetsTalkChennai: CollectionConfig<'lets-talks-chennai'> = {
   slug: 'lets-talks-chennai',
@@ -101,6 +102,7 @@ export const LetsTalkChennai: CollectionConfig<'lets-talks-chennai'> = {
                         MediaBlock,
                         VideoBlock,
                         AboutEventBlock,
+                        AboutUsBlock,
                         EventRegistrationFormBlock,
                         EventDetailsBlock,
                         VideoGalleryBlock,

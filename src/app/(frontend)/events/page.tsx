@@ -22,34 +22,18 @@ export default async function Page() {
     <div className=" pb-24">
       <PageClient />
       <section className="relative overflow-hidden">
-        {/* Background Image */}
         <div className="relative h-[380px] w-full md:h-[460px] lg:h-[540px]">
-          <Image
-            src={AccodomationBanner}
-            alt="Events Banner"
-            fill
-            priority
-            className="object-cover scale-105"
-          />
-
-          {/* Dark Green Overlay */}
-          <div className="absolute inset-0 bg-gradient-to-r from-[#052e16]/90 via-[#14532d]/70 to-[#3f6212]/50" />
-
-          {/* Green + Orange Glow */}
-          <div className="absolute inset-0 bg-[radial-gradient(circle_at_top_right,rgba(249,115,22,0.35),transparent_35%),radial-gradient(circle_at_bottom_left,rgba(34,197,94,0.30),transparent_40%)]" />
-
-          {/* Extra Overlay Texture */}
-          <div className="absolute inset-0 bg-black/20" />
+          <div className="absolute inset-0 bg-gradient-to-r from-red-950 via-slate-900 to-blue-950" />
+          <div className="absolute inset-0 bg-[radial-gradient(circle_at_top_right,rgba(239,68,68,0.4),transparent_40%),radial-gradient(circle_at_bottom_left,rgba(59,130,246,0.4),transparent_45%)]" />
+          <div className="absolute inset-0 bg-black/30" />
         </div>
-
-        {/* Content */}
         <div className="absolute inset-0 flex items-center">
           <div className="container mx-auto px-4 md:px-6 mt-20">
             <div className="max-w-3xl">
               {/* Badge */}
               <div className="mb-5 inline-flex items-center gap-2 rounded-full border border-white/10 bg-white/10 px-5 py-2 text-sm font-medium uppercase tracking-[0.2em] text-white backdrop-blur-xl shadow-lg">
                 <span className="h-2.5 w-2.5 rounded-full bg-orange-400 animate-pulse" />
-                Summer Festival 2026
+                Let&apos;s Talk Chennai
               </div>
 
               {/* Heading */}
@@ -57,7 +41,7 @@ export default async function Page() {
                 Discover
                 <span className="bg-gradient-to-r from-orange-300 via-yellow-200 to-green-300 bg-clip-text text-transparent">
                   {' '}
-                  Amazing SummerFest
+                  Let&apos;s Talk Chennai
                 </span>
               </h1>
 
@@ -68,28 +52,10 @@ export default async function Page() {
               </p>
 
               {/* CTA Buttons */}
-              <div className="mt-8 flex flex-wrap gap-4">
-                {/* Primary Button */}
-                {/* <Link
-                  href="/events"
-                  className="inline-flex items-center justify-center rounded-full bg-gradient-to-r from-orange-500 via-amber-500 to-green-500 px-8 py-3 text-sm font-semibold text-white shadow-[0_12px_40px_rgba(249,115,22,0.35)] transition-all duration-300 hover:scale-105 hover:shadow-[0_16px_50px_rgba(34,197,94,0.35)]"
-                >
-                  Explore Events
-                </Link> */}
-
-                {/* Secondary Button */}
-                {/* <Link
-                  href="/contact"
-                  className="inline-flex items-center justify-center rounded-full border border-white/15 bg-white/10 px-8 py-3 text-sm font-semibold text-white backdrop-blur-xl transition-all duration-300 hover:bg-white/20"
-                >
-                  Contact Us
-                </Link> */}
-              </div>
+              <div className="mt-8 flex flex-wrap gap-4"></div>
             </div>
           </div>
         </div>
-
-        {/* Bottom Fade */}
         <div className="absolute bottom-0 left-0 h-32 w-full bg-gradient-to-t from-white to-transparent" />
       </section>
 

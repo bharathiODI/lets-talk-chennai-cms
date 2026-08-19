@@ -29,8 +29,8 @@ export default async function RootLayout({ children }: { children: React.ReactNo
         <link href="/favicon.ico" rel="icon" type="image/svg+xml" />
       </head>
       <body>
-        <GoogleTagManager gtmId="GTM-TR56GLF6" />
-        <GoogleAnalytics gaId="G-ZEMVJH3G2E" />
+        <GoogleTagManager gtmId="GTM-P9G3PTT7" />
+        <GoogleAnalytics gaId="G-XQNZ1N285N" />
         <Providers>
           <AdminBar
             adminBarProps={{
@@ -52,5 +52,8 @@ export const metadata: Metadata = {
   twitter: {
     card: 'summary_large_image',
     creator: '@payloadcms',
+  },
+  verification: {
+    google: 'TV8yLsjwGYJA-dPtmW_ruGvrLxa9c6Hpx1sNSMoxm2w',
   },
 }
