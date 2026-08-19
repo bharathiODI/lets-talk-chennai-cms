@@ -134,7 +134,7 @@ export default function EventListingComponent({
   const fetchEvents = async () => {
     try {
       setLoading(true)
-      const res = await axios.get('/api/lets-talks-chennai')
+      const res = await axios.get('/api/lets-talks-chennai-lisitngs')
       setEvents(res?.data?.docs || [])
     } catch (error) {
       console.error('Error fetching events:', error)
