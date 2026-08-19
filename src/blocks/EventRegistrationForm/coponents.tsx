@@ -482,7 +482,7 @@ const EventRegistrationBlockComponent: React.FC<Props> = ({ block, eventData }) 
                     <button
                       type="submit"
                       disabled={loading}
-                      className="w-full rounded-xl bg-gradient-to-r from-orange-500 via-amber-500 to-yellow-400 py-4 text-sm font-extrabold uppercase tracking-widest text-white shadow-xl shadow-orange-500/20 transition-all hover:scale-[1.01] hover:shadow-orange-500/30 active:scale-[0.99] disabled:opacity-50"
+                      className="w-full rounded-xl bg-[#01236a]  py-4 text-sm font-extrabold uppercase tracking-widest text-white shadow-xl  transition-all hover:scale-[1.01] hover:shadow-[#01236a]-500/30 active:scale-[0.99] disabled:opacity-50"
                     >
                       {loading ? 'Submitting...' : 'Complete Registration'}
                     </button>
