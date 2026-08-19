@@ -37,15 +37,7 @@ export const LetsTalkChennai: CollectionConfig<'lets-talks-chennai'> = {
   access: {
     create: authenticated,
     delete: authenticated,
-
-    read: ({ req }) => {
-      if (req.user) return true
-      return {
-        _status: {
-          equals: 'published',
-        },
-      }
-    },
+    read: authenticatedOrPublished,
     update: authenticated,
   },
   defaultPopulate: {

@@ -134,8 +134,7 @@ export default function EventListingComponent({
   const fetchEvents = async () => {
     try {
       setLoading(true)
-      // Depth parameter added so TalkCategories relation expands properly
-      const res = await axios.get('/api/lets-talks-chennai?depth=2')
+      const res = await axios.get('/api/lets-talks-chennai')
       setEvents(res?.data?.docs || [])
     } catch (error) {
       console.error('Error fetching events:', error)
