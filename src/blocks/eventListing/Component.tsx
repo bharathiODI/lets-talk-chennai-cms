@@ -242,9 +242,9 @@ export default function EventListingComponent({
             whileInView={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.5 }}
             viewport={{ once: true }}
-            className="inline-flex items-center gap-2 rounded-full border border-cyan-500/20 bg-cyan-50/80 px-4 py-1.5 text-xs font-bold uppercase tracking-widest text-[#005B70] backdrop-blur-md mb-4 shadow-sm"
+            className="inline-flex items-center gap-2 rounded-full border border-cyan-500/20 bg-[#fff1f2cc] px-4 py-1.5 text-xs font-bold uppercase tracking-widest text-[#ec265b] backdrop-blur-md mb-4 shadow-sm"
           >
-            <Sparkles className="h-3.5 w-3.5 text-[#007A87]" />
+            <Sparkles className="h-3.5 w-3.5 text-[#ec265b]" />
             Discover Chennai Experience
           </motion.div>
 

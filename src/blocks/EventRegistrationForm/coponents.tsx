@@ -52,7 +52,7 @@ const setFieldValue = (prev: Record<string, any>, fieldName: string, value: any)
 })
 
 const WaveDecoration = () => (
-  <span className="mx-2 inline-block font-serif text-lg tracking-widest text-[#007A87] opacity-60">
+  <span className="mx-2 inline-block font-serif text-lg tracking-widest text-[#ec265b] opacity-60">
     ~~~
   </span>
 )
@@ -357,18 +357,18 @@ const EventRegistrationBlockComponent: React.FC<Props> = ({ block, eventData }) 
     <>
       <ToastContainer position="top-center" />
 
-      <section className="relative overflow-hidden bg-slate-50/50 py-16">
+      <section className="relative overflow-hidden bg-pink-50/50 py-16">
         <div className="relative z-10">
           {/* HEADING HEADER */}
           <div className="mb-12 text-center">
-            <h2 className="festmainheadingsss mb-0 mt-0 flex items-center justify-center gap-2 text-sm font-extrabold uppercase tracking-widest text-[#005B70]">
+            <h2 className="festmainheadingsss mb-0 mt-0 flex items-center justify-center gap-2 text-sm font-extrabold uppercase tracking-widest text-[#ec265b]">
               <WaveDecoration />
               {block?.sectionTitle || 'Register'}
               <WaveDecoration />
             </h2>
 
             <div className="mt-3 flex items-center justify-center">
-              <div className="h-1 w-20 rounded bg-[#FCBA13]" />
+              <div className="h-1 w-20 rounded bg-[#ffabb1cc]" />
             </div>
           </div>
 
@@ -395,7 +395,7 @@ const EventRegistrationBlockComponent: React.FC<Props> = ({ block, eventData }) 
               {/* FORM SECTION (SPAN 12 IF NO IMAGE, SPAN 7 IF IMAGE EXISTS) */}
               <div className={`p-6 sm:p-10 lg:p-12 ${showImage ? 'lg:col-span-7' : 'w-full'}`}>
                 {block?.sectionSubTitle && (
-                  <span className="text-xs font-bold uppercase tracking-wider text-orange-500">
+                  <span className="text-xs font-bold uppercase tracking-wider text-[#ec265b]">
                     {block.sectionSubTitle}
                   </span>
                 )}
@@ -450,7 +450,7 @@ const EventRegistrationBlockComponent: React.FC<Props> = ({ block, eventData }) 
                           type="button"
                           onClick={sendOtpToMobile}
                           disabled={sendingOtp || otpVerified}
-                          className="rounded-xl bg-gray-900 px-5 py-3 text-xs font-bold text-white transition-all hover:bg-gray-800 disabled:opacity-50"
+                          className="rounded-xl bg-[#6d4399] px-5 py-3 text-xs font-bold text-white transition-all hover:bg-gray-800 disabled:opacity-50"
                         >
                           {sendingOtp ? 'Sending...' : otpVerified ? 'OTP Verified' : 'Send OTP'}
                         </button>
@@ -482,7 +482,7 @@ const EventRegistrationBlockComponent: React.FC<Props> = ({ block, eventData }) 
                     <button
                       type="submit"
                       disabled={loading}
-                      className="w-full rounded-xl bg-[#01236a]  py-4 text-sm font-extrabold uppercase tracking-widest text-white shadow-xl  transition-all hover:scale-[1.01] hover:shadow-[#01236a]-500/30 active:scale-[0.99] disabled:opacity-50"
+                      className="w-full rounded-xl bg-[#6d4399]  py-4 text-sm font-extrabold uppercase tracking-widest text-white shadow-xl  transition-all hover:scale-[1.01] hover:shadow-[#01236a]-500/30 active:scale-[0.99] disabled:opacity-50"
                     >
                       {loading ? 'Submitting...' : 'Complete Registration'}
                     </button>

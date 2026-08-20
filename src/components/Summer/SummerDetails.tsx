@@ -75,18 +75,16 @@ const SummerFestDetails: React.FC<SummerFestDetailsProps> = ({ data }) => {
   ========================================================= */
 
   const eventFields = data?.eventFields || {}
-const registrationSettings = 
-  data?.formSettings?.regSettings || data?.regSettings || {}
+  const registrationSettings = data?.formSettings?.regSettings || data?.regSettings || {}
 
-const customFields: CustomField[] = 
-  Array.isArray(data?.formSettings?.customFields)
+  const customFields: CustomField[] = Array.isArray(data?.formSettings?.customFields)
     ? data.formSettings.customFields
     : Array.isArray(data?.customFields)
-    ? data.customFields
-    : []
+      ? data.customFields
+      : []
 
-// Registration status check
-// const isRegistrationOpen = registrationSettings?.isRegistrationOpen ?? true
+  // Registration status check
+  // const isRegistrationOpen = registrationSettings?.isRegistrationOpen ?? true
 
   const title = eventFields?.title || data?.title || 'Event'
   const mobileImage: Media = data?.mobileImage
@@ -337,7 +335,7 @@ const customFields: CustomField[] =
       <ToastContainer position="top-center" />
 
       {/* HERO SECTION */}
-      <section className="relative overflow-hidden">
+      <section className="relative overflow-hidden headerrrheeight1">
         <div className="relative w-full">
           {/* DESKTOP IMAGE */}
           {heroImage?.url && (
@@ -367,7 +365,7 @@ const customFields: CustomField[] =
 
       {/* CONTENT SECTION */}
       <section className="bg-white">
-        <div className="prose prose-lg max-w-none py-20">
+        <div className="prose prose-lg max-w-none py-20 max-[600px]:pt-[50px]">
           <LexicalRenderer content={data?.content} eventData={data} />
         </div>
       </section>
@@ -418,7 +416,8 @@ const customFields: CustomField[] =
               <h2 className="text-4xl font-black leading-tight text-[#061E43]">Thank You!</h2>
 
               <p className="mt-5 text-lg leading-8 text-gray-600">
-                Your registration for <span className="font-bold text-orange-500">{title}</span> has been successfully submitted.
+                Your registration for <span className="font-bold text-orange-500">{title}</span> has
+                been successfully submitted.
               </p>
 
               <p className="mt-3 text-sm text-gray-500">
