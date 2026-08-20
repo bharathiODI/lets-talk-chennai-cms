@@ -253,7 +253,7 @@ export default function EventListingComponent({
             whileInView={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.5, delay: 0.1 }}
             viewport={{ once: true }}
-            className="text-3xl font-black tracking-tight text-slate-900 uppercase sm:text-4xl lg:text-5xl"
+            className="text-3xl font-black tracking-tight text-[#6d4399] uppercase sm:text-4xl lg:text-5xl"
           >
             {heading || 'EXPLORE CHENNAI'}
           </motion.h2>
@@ -290,7 +290,7 @@ export default function EventListingComponent({
               onClick={() => setActiveCategory('all')}
               className={`relative rounded-full px-6 py-2.5 text-xs font-bold uppercase tracking-wider transition-all duration-300 ${
                 activeCategory === 'all'
-                  ? 'bg-slate-900 text-white shadow-xl shadow-slate-900/20 scale-105'
+                  ? 'bg-[#6d4399] text-white shadow-xl shadow-slate-900/20 scale-105'
                   : 'bg-white/80 backdrop-blur-md text-slate-600 hover:bg-white hover:text-slate-900 border border-slate-200/80 shadow-sm'
               }`}
             >

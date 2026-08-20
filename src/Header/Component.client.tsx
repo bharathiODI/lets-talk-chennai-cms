@@ -251,7 +251,7 @@ export const HeaderClient: React.FC<HeaderClientProps> = ({ data }) => {
           </div> */}
 
           <div className="flex h-10 w-10  items-center justify-center mobilebannerrrlayouuttt">
-            <Link href="/">
+            <Link href="https://www.superchennai.com/">
               {data?.logo && typeof data.logo === 'object' && 'url' in data.logo && (
                 <img
                   src={`/media/${data.logo.filename}`}

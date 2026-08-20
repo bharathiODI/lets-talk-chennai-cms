@@ -405,7 +405,7 @@ const EventRegistrationBlockComponent: React.FC<Props> = ({ block, eventData }) 
                 </h3>
 
                 {block?.sectionDescrption && (
-                  <p className="mt-2 text-sm text-gray-600 leading-relaxed">{block.sectionDescrption}</p>
+                  <p className="mt-2 lg:text-[16px] lg:w-[80%]  text-sm text-gray-600 leading-relaxed">{block.sectionDescrption}</p>
                 )}
 
                 {/* RESPONSIVE 2-COLUMN GRID LAYOUT */}
@@ -424,7 +424,7 @@ const EventRegistrationBlockComponent: React.FC<Props> = ({ block, eventData }) 
                           className={isFullWidth ? 'md:col-span-2' : 'md:col-span-1'}
                         >
                           {field.type !== 'checkbox' && (
-                            <label className="block text-xs font-bold uppercase tracking-wider text-gray-700">
+                            <label className="block lg:text-[15px] text-xs font-bold uppercase tracking-wider text-gray-700 ">
                               {field.label} {field.required && <span className="text-red-500">*</span>}
                             </label>
                           )}

@@ -365,7 +365,7 @@ const SummerFestDetails: React.FC<SummerFestDetailsProps> = ({ data }) => {
 
       {/* CONTENT SECTION */}
       <section className="bg-white">
-        <div className="prose prose-lg max-w-none py-20 max-[600px]:pt-[50px]">
+        <div className="prose prose-lg max-w-none py-20 max-[600px]:pt-[50px] pb-0">
           <LexicalRenderer content={data?.content} eventData={data} />
         </div>
       </section>
