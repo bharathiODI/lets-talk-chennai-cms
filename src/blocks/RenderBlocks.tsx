@@ -6,21 +6,19 @@ import type { Page } from 'src/payload-types'
 // Blocks
 import { FormBlock } from 'src/blocks/Form/Component'
 import { MediaBlock } from 'src/blocks/MediaBlock/Component'
+import AboutEventBlockComponent from './AboutEvent/Component'
+import { AboutSummerFestBlockComponent } from './AboutSummerFestBlock/Component'
+import EventRegistrationBlockComponent from './EventRegistrationForm/coponents'
+import FeaturedEventBlockComponent from './EventsDetails/Component'
+import { MediaCarouselBlock } from './MediaCarousel/Component'
 import HeroSliderBlock from './PageBanners/Home/Component'
 import { CTABlockComponent } from './cta/Component'
 import { GalleryBlockComponent } from './gallery/Component'
-import { PartnerLogosComponent } from './partnerLogos/Component'
-import { PerformerShowcaseComponent } from './performerShowcase/Component'
-import { StatsBlockComponent } from './stats/Component'
-import { WeekTimelineComponent } from './weekTimeline/Component'
-import ImageBlockComponent from './imageBlock/Component'
-import AboutEventBlockComponent from './AboutEvent/Component'
-import EventRegistrationBlockComponent from './EventRegistrationForm/coponents'
-import { MediaCarouselBlock } from './MediaCarousel/Component'
-import { AboutSummerFestBlockComponent } from './AboutSummerFestBlock/Component'
-import FeaturedEventBlockComponent from './EventsDetails/Component'
-import { VideoGalleryBlockComponent } from './videoGallery/Component'
 import { GalleryVisualDiaryBlockComponent } from './galleryVisualDiary/Component'
+import ImageBlockComponent from './imageBlock/Component'
+import { StatsBlockComponent } from './stats/Component'
+import { VideoGalleryBlockComponent } from './videoGallery/Component'
+import { WeekTimelineComponent } from './weekTimeline/Component'
 
 /**
  * Map Payload blockType → React Component
@@ -29,8 +27,8 @@ const blockComponents: Record<string, React.FC<any>> = {
   formBlock: FormBlock,
   mediaBlock: MediaBlock,
   weekTimeline: WeekTimelineComponent,
-  performerShowcase: PerformerShowcaseComponent,
-  partnerLogos: PartnerLogosComponent,
+  // performerShowcase: PerformerShowcaseComponent,
+  // partnerLogos: PartnerLogosComponent,
   statsBlock: StatsBlockComponent,
   galleryBlock: GalleryBlockComponent,
   ctaBlock: CTABlockComponent,

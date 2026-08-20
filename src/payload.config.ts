@@ -23,6 +23,7 @@ import { Header } from './Header/config'
 import { plugins } from './plugins'
 import { getServerSideURL } from './utilities/getURL'
 import { LetsTalkChennai } from './collections/LetsTalkChennai'
+import { TalkCategories } from './collections/LetsTalkChennai/options/TalkCategory'
 
 const filename = fileURLToPath(import.meta.url)
 const dirname = path.dirname(filename)
@@ -85,6 +86,7 @@ export default buildConfig({
     Categories,
     Users,
     LetsTalkChennai,
+    TalkCategories,
     EventFormFields,
     SummerRegistrations,
     EventDashboard,

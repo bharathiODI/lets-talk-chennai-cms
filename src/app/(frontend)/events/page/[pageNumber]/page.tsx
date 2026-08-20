@@ -2,12 +2,10 @@ import type { Metadata } from 'next/types'
 
 import { notFound } from 'next/navigation'
 import { getPayload } from 'payload'
-// import Banner from 'src/blocks/InnerPage/SharedBlocks/Banners/Components'
+import ArattaiDetails from '@/components/Summer/SummerDetails'
 import { Pagination } from 'src/components/Pagination'
 import configPromise from 'src/payload.config'
 import PageClient from './page.client'
-import { Suspense } from 'react'
-import ArattaiDetails from '@/components/Summer/SummerDetails'
 
 export const revalidate = 600
 
@@ -26,9 +24,9 @@ export default async function Page({ params: paramsPromise }: Args) {
   const arattai = await payload.find({
     collection: 'lets-talks-chennai',
     depth: 3,
-    limit: 12,
+    limit: 1000,
     page: sanitizedPageNumber,
-    overrideAccess: false,
+    overrideAccess: true,
   })
 
   return (
@@ -39,8 +37,6 @@ export default async function Page({ params: paramsPromise }: Args) {
           <h1>summerFestEvents</h1>
         </div>
       </div>
-
-  
 
       <ArattaiDetails data={arattai} />
 

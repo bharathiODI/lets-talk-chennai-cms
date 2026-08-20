@@ -21,7 +21,15 @@ const nextConfig = {
         protocol: 'http',
         hostname: 'localhost',
       },
-     
+      {
+        protocol: 'https',
+        hostname: 'letstalkchennai.com',
+      },
+      {
+        protocol: 'https',
+        hostname: 'www.letstalkchennai.com',
+      },
+
       {
         protocol: 'https',
         hostname: 'summerfest.superchennai.com',

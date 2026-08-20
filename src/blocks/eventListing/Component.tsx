@@ -14,6 +14,8 @@ import {
   Trees,
   Calendar,
   Sparkles,
+  Tag,
+  HeartHandshake,
 } from 'lucide-react'
 
 import './style.css'
@@ -89,7 +91,8 @@ const getCategoryMeta = (categoryName: string) => {
     normalized.includes('park') ||
     normalized.includes('outdoor') ||
     normalized.includes('nature') ||
-    normalized.includes('beach')
+    normalized.includes('beach') ||
+    normalized.includes('reels')
   ) {
     return {
       bg: 'bg-gradient-to-r from-emerald-500 to-teal-600',
@@ -122,7 +125,7 @@ export default function EventListingComponent({
   const [showAllUpcoming, setShowAllUpcoming] = useState(false)
 
   /* ======================================================
-     FETCH EVENTS
+     FETCH EVENTS WITH DEPTH
   ====================================================== */
   useEffect(() => {
     fetchEvents()
@@ -131,7 +134,7 @@ export default function EventListingComponent({
   const fetchEvents = async () => {
     try {
       setLoading(true)
-      const res = await axios.get('/api/summer-events-lisings')
+      const res = await axios.get('/api/lets-talks-chennai-lisitngs')
       setEvents(res?.data?.docs || [])
     } catch (error) {
       console.error('Error fetching events:', error)
@@ -141,19 +144,53 @@ export default function EventListingComponent({
   }
 
   /* ======================================================
-     CATEGORIES LIST
+     DYNAMICALLY EXTRACT CATEGORIES (FROM TalkCategories Array)
   ====================================================== */
   const categories = useMemo(() => {
-    const allCategories = events?.map((event) => event?.eventFields?.category).filter(Boolean) || []
+    const allCategories: string[] = []
+
+    events?.forEach((event) => {
+      // 1. Check TalkCategories inside eventFields OR event level
+      const talkCats = event?.eventFields?.TalkCategories || event?.TalkCategories
+      if (Array.isArray(talkCats)) {
+        talkCats.forEach((catItem: any) => {
+          const catName = typeof catItem === 'object' ? catItem?.name : catItem
+          if (catName) allCategories.push(catName)
+        })
+      }
+
+      // 2. Fallback to old single category field if present
+      const singleCat = event?.eventFields?.category || event?.category
+      if (singleCat && typeof singleCat === 'string') {
+        allCategories.push(singleCat)
+      }
+    })
+
     return Array.from(new Set(allCategories))
   }, [events])
 
   /* ======================================================
-     FILTER EVENTS BY CATEGORY
+     FILTER EVENTS BY SELECTED CATEGORY
   ====================================================== */
   const filteredEvents = useMemo(() => {
     if (activeCategory === 'all') return events
-    return events.filter((event) => event?.eventFields?.category === activeCategory)
+
+    return events.filter((event) => {
+      const talkCats = event?.eventFields?.TalkCategories || event?.TalkCategories
+
+      // Multi category match
+      if (Array.isArray(talkCats)) {
+        const hasMatch = talkCats.some((catItem: any) => {
+          const catName = typeof catItem === 'object' ? catItem?.name : catItem
+          return catName?.toLowerCase() === activeCategory?.toLowerCase()
+        })
+        if (hasMatch) return true
+      }
+
+      // Single category fallback match
+      const singleCat = event?.eventFields?.category || event?.category
+      return singleCat?.toLowerCase() === activeCategory?.toLowerCase()
+    })
   }, [events, activeCategory])
 
   /* ======================================================
@@ -183,15 +220,11 @@ export default function EventListingComponent({
       className="relative overflow-hidden bg-slate-50 py-20 lg:py-32"
       style={{ fontFamily: "'Poppins', sans-serif" }}
     >
-      {/* ======================================================
-          DYNAMIC BACKGROUND GRAPHICS & MESH GRADIENTS
-      ====================================================== */}
+      {/* BACKGROUND GRAPHICS & MESH GRADIENTS */}
       <div className="pointer-events-none absolute inset-0 -z-10 overflow-hidden">
-        {/* Animated Radial Blurs */}
         <div className="absolute -left-20 top-1/4 h-[500px] w-[500px] rounded-full bg-gradient-to-tr from-cyan-200/40 via-blue-200/30 to-transparent blur-3xl" />
         <div className="absolute -right-20 top-2/3 h-[500px] w-[500px] rounded-full bg-gradient-to-br from-amber-200/40 via-orange-100/30 to-transparent blur-3xl" />
 
-        {/* Subtle Grid Pattern Overlay */}
         <div
           className="absolute inset-0 opacity-[0.03]"
           style={{
@@ -202,9 +235,7 @@ export default function EventListingComponent({
       </div>
 
       <div className="container mx-auto max-w-7xl px-4 sm:px-6">
-        {/* ======================================================
-            SECTION HEADER WITH BADGE
-        ====================================================== */}
+        {/* SECTION HEADER */}
         <div className="mb-16 text-center">
           <motion.div
             initial={{ opacity: 0, y: 15 }}
@@ -246,9 +277,7 @@ export default function EventListingComponent({
           )}
         </div>
 
-        {/* ======================================================
-            CATEGORY TABS (GLASSMORPHIC ACTIVE STATE)
-        ====================================================== */}
+        {/* CATEGORY TABS */}
         {categories.length > 0 && (
           <motion.div
             initial={{ opacity: 0, y: 15 }}
@@ -283,9 +312,7 @@ export default function EventListingComponent({
           </motion.div>
         )}
 
-        {/* ======================================================
-            EVENTS GRID (HIGH-END ANIMATED CARDS)
-        ====================================================== */}
+        {/* EVENTS GRID */}
         <AnimatePresence mode="wait">
           <motion.div
             key={activeCategory}
@@ -299,13 +326,20 @@ export default function EventListingComponent({
               (event: any, index: number) => {
                 const eventFields = event?.eventFields || {}
 
-                const title = eventFields?.title || event?.title
-                const category = eventFields?.category || 'General'
+                const title = event?.title || eventFields?.title
                 const shortDescription = eventFields?.shortDescription
                 const familyFriendly = eventFields?.familyFriendly
-                const buttonText = eventFields?.linkbutton || 'Explore'
+                const buttonText = eventFields?.linkbutton || 'Register Now'
 
-                const catMeta = getCategoryMeta(category)
+                // Extract array of TalkCategories
+                const talkCategoriesList: any[] =
+                  eventFields?.TalkCategories || event?.TalkCategories || []
+
+                // Primary category name for icon style mapping
+                const primaryCategory =
+                  talkCategoriesList[0]?.name || eventFields?.category || 'General'
+
+                const catMeta = getCategoryMeta(primaryCategory)
                 const CategoryIcon = catMeta.icon
 
                 const heroImage = event?.heroImage || eventFields?.featuredImage
@@ -333,7 +367,7 @@ export default function EventListingComponent({
                       prefetch={false}
                       className="flex flex-col h-full"
                     >
-                      {/* Image Area with Overlay Gradient */}
+                      {/* IMAGE AREA WITH OVERLAY BADGES */}
                       <div className="relative aspect-[16/10] w-full overflow-hidden bg-slate-100">
                         <Image
                           src={image}
@@ -343,14 +377,34 @@ export default function EventListingComponent({
                           className="object-cover transition-transform duration-700 ease-out group-hover:scale-110"
                         />
 
-                        {/* Top Gradient & Badges */}
+                        {/* Top Gradient */}
                         <div className="absolute inset-0 bg-gradient-to-t from-slate-900/60 via-transparent to-black/20 opacity-80" />
 
-                        {familyFriendly && (
-                          <span className="absolute top-3.5 right-3.5 z-10 bg-slate-900/75 backdrop-blur-md text-white border border-white/20 px-3 py-1 rounded-full text-[10px] font-bold uppercase tracking-wider shadow-lg">
-                            Family
-                          </span>
-                        )}
+                        {/* TOP RIGHT BADGES (FAMILY FRIENDLY + TALK CATEGORIES SIDE BY SIDE) */}
+                        <div className="absolute top-3 right-3 z-10 flex flex-wrap gap-1.5 justify-end max-w-[85%]">
+                          {/* Family Friendly Badge */}
+                          {familyFriendly && (
+                            <span className="inline-flex items-center gap-1 bg-slate-900/80 backdrop-blur-md text-white border border-white/20 px-2.5 py-1 rounded-full text-[10px] font-bold uppercase tracking-wider shadow-lg">
+                              <HeartHandshake className="w-3 h-3 text-pink-400" />
+                              Family
+                            </span>
+                          )}
+
+                          {/* TalkCategories Badges side by side */}
+                          {talkCategoriesList.map((catObj: any, cIdx: number) => {
+                            const catName = typeof catObj === 'object' ? catObj?.name : catObj
+                            if (!catName) return null
+                            return (
+                              <span
+                                key={catObj?.id || cIdx}
+                                className="inline-flex items-center gap-1 bg-purple-950/80 backdrop-blur-md text-purple-200 border border-purple-400/30 px-2.5 py-1 rounded-full text-[10px] font-bold uppercase tracking-wider shadow-lg"
+                              >
+                                <Tag className="w-2.5 h-2.5 text-purple-300" />
+                                {catName}
+                              </span>
+                            )
+                          })}
+                        </div>
                       </div>
 
                       {/* Overlapping Floating Icon Badge */}
@@ -365,10 +419,11 @@ export default function EventListingComponent({
                       {/* Card Body */}
                       <div className="flex flex-1 flex-col justify-between p-6 pt-3">
                         <div>
+                          {/* PRIMARY CATEGORY HEADER */}
                           <span
                             className={`block text-[11px] font-extrabold uppercase tracking-widest ${catMeta.text} mb-1.5`}
                           >
-                            {category}
+                            {primaryCategory}
                           </span>
 
                           <h3 className="text-base font-bold text-slate-900 tracking-tight line-clamp-2 leading-snug transition-colors group-hover:text-black">
@@ -400,9 +455,7 @@ export default function EventListingComponent({
           </motion.div>
         </AnimatePresence>
 
-        {/* ======================================================
-            VIEW MORE BUTTON (HIGH-GLOSS CTA)
-        ====================================================== */}
+        {/* VIEW MORE BUTTON */}
         {(filteredEvents.length > 8 || showViewAll) && (
           <motion.div
             initial={{ opacity: 0, y: 20 }}

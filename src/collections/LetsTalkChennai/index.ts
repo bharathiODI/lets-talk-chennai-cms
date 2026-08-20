@@ -30,6 +30,7 @@ import {
   InlineToolbarFeature,
   lexicalEditor,
 } from '@payloadcms/richtext-lexical'
+import { AboutUsBlock } from '@/blocks/AboutUs/config'
 
 export const LetsTalkChennai: CollectionConfig<'lets-talks-chennai'> = {
   slug: 'lets-talks-chennai',
@@ -100,11 +101,10 @@ export const LetsTalkChennai: CollectionConfig<'lets-talks-chennai'> = {
                         Code,
                         MediaBlock,
                         VideoBlock,
-
                         AboutEventBlock,
+                        AboutUsBlock,
                         EventRegistrationFormBlock,
                         EventDetailsBlock,
-
                         VideoGalleryBlock,
                         GalleryVisualDiaryBlock,
                       ],
@@ -131,6 +131,17 @@ export const LetsTalkChennai: CollectionConfig<'lets-talks-chennai'> = {
               type: 'group',
               label: 'General Event Info',
               fields: [
+                {
+                  name: 'TalkCategories',
+                  type: 'relationship',
+                  relationTo: 'talkcategories',
+                  required: true,
+                  hasMany: true,
+                  label: 'talk Category',
+                  admin: {
+                    description: 'Select dynamic category created from Categories collection.',
+                  },
+                },
                 {
                   name: 'shortDescription',
                   type: 'textarea',

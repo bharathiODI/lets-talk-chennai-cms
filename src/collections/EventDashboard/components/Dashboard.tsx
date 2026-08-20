@@ -1,19 +1,41 @@
 'use client'
 
 import React, { useEffect, useMemo, useState } from 'react'
-import * as XLSX from 'xlsx' 
+import * as XLSX from 'xlsx'
 
 import './styles.scss'
 
+/* ======================================================
+   HELPERS
+====================================================== */
+
+// Transform 'your_name__' or 'email_address' to 'Your Name'
+const formatHeader = (key: string) => {
+  return key
+    .replace(/[^a-zA-Z0-9]/g, ' ')
+    .trim()
+    .replace(/\s+/g, ' ')
+    .replace(/\b\w/g, (char) => char.toUpperCase())
+}
+
+// Convert relative URLs (/media/file.jpg) to full absolute URLs
+const getFullMediaUrl = (fileUrl?: string) => {
+  if (!fileUrl) return ''
+  if (fileUrl.startsWith('http://') || fileUrl.startsWith('https://')) {
+    return fileUrl
+  }
+
+  const baseUrl =
+    process.env.NEXT_PUBLIC_SERVER_URL ||
+    (typeof window !== 'undefined' ? window.location.origin : '')
+
+  return `${baseUrl.replace(/\/$/, '')}${fileUrl.startsWith('/') ? '' : '/'}${fileUrl}`
+}
+
 export default function Dashboard() {
-  const [activeTab, setActiveTab] = useState('summer')
-
-  const [selectedWeek, setSelectedWeek] = useState('')
-
-  const [selectedEvent, setSelectedEvent] = useState('')
-
+  const [selectedWeek, setSelectedWeek] = useState('ALL')
+  const [selectedEvent, setSelectedEvent] = useState('ALL')
   const [data, setData] = useState<any[]>([])
-
   const [loading, setLoading] = useState(false)
 
   /* ======================================================
@@ -22,19 +44,16 @@ export default function Dashboard() {
 
   useEffect(() => {
     fetchData()
-  }, [activeTab])
+  }, [])
 
   const fetchData = async () => {
     try {
       setLoading(true)
-
-      const res = await fetch(`/api/${activeTab}-dashboard`)
-
+      const res = await fetch('/api/summer-dashboard')
       const json = await res.json()
-
       setData(Array.isArray(json?.docs) ? json.docs : [])
     } catch (error) {
-      console.log(error)
+      console.error('Error fetching dashboard data:', error)
     } finally {
       setLoading(false)
     }
@@ -45,39 +64,26 @@ export default function Dashboard() {
   ====================================================== */
 
   const groupedWeeks = useMemo(() => {
-    return data.reduce((acc: any, item: any) => {
-      const weekTitle = item?.week?.title || item?.contestWeek?.title || 'No Week'
+    return data.reduce((acc: Record<string, any[]>, item: any) => {
+      const weekTitle = item?.week?.title || item?.contestWeek?.title || 'General'
 
       if (!acc[weekTitle]) {
         acc[weekTitle] = []
       }
 
       acc[weekTitle].push(item)
-
       return acc
     }, {})
   }, [data])
 
   /* ======================================================
-     AUTO SELECT WEEK
-  ====================================================== */
-
-  useEffect(() => {
-    const weekKeys = Object.keys(groupedWeeks)
-
-    if (weekKeys[0]) {
-      setSelectedWeek(weekKeys[0])
-    }
-  }, [groupedWeeks])
-
-  /* ======================================================
-     GROUP EVENTS INSIDE WEEK
+     GROUP EVENTS INSIDE SELECTED WEEK OR ALL
   ====================================================== */
 
   const groupedEvents = useMemo(() => {
-    const weekData = groupedWeeks[selectedWeek] || []
+    const targetData = selectedWeek === 'ALL' ? data : groupedWeeks[selectedWeek] || []
 
-    return weekData.reduce((acc: any, item: any) => {
+    return targetData.reduce((acc: Record<string, any[]>, item: any) => {
       const title =
         item?.summer?.eventFields?.title ||
         item?.summer?.title ||
@@ -91,385 +97,284 @@ export default function Dashboard() {
       }
 
       acc[title].push(item)
-
       return acc
     }, {})
-  }, [groupedWeeks, selectedWeek])
+  }, [data, groupedWeeks, selectedWeek])
 
   /* ======================================================
-     AUTO SELECT EVENT
+     FILTER CURRENT ITEMS BASED ON SELECTIONS
   ====================================================== */
 
-  useEffect(() => {
-    const keys = Object.keys(groupedEvents)
-
-    if (keys[0]) {
-      setSelectedEvent(keys[0])
+  const currentItems = useMemo(() => {
+    if (selectedWeek === 'ALL' && selectedEvent === 'ALL') {
+      return data
     }
-  }, [groupedEvents])
+
+    if (selectedEvent === 'ALL') {
+      return groupedWeeks[selectedWeek] || []
+    }
+
+    return groupedEvents[selectedEvent] || []
+  }, [data, groupedWeeks, groupedEvents, selectedWeek, selectedEvent])
 
   /* ======================================================
-     FORMAT LABEL
+     DYNAMIC COLUMNS EXTRACTOR
   ====================================================== */
 
-  const formatLabel = (text: string) => {
-    return text
-      .replace(/([A-Z])/g, ' $1')
-      .replace(/_/g, ' ')
-      .replace(/\b\w/g, (char) => char.toUpperCase())
-  }
+  const dynamicKeys = useMemo(() => {
+    const keysSet = new Set<string>()
+
+    currentItems.forEach((item: any) => {
+      if (item?.values && typeof item.values === 'object') {
+        Object.keys(item.values).forEach((k) => keysSet.add(k))
+      }
+    })
+
+    return Array.from(keysSet)
+  }, [currentItems])
 
   /* ======================================================
-     RENDER VALUE
-  ====================================================== */
-
-  // const renderValue = (value: any) => {
-  //   if (Array.isArray(value)) {
-  //     return (
-  //       <div className="fieldTags">
-  //         {value.map((item, i) => (
-  //           <span key={i}>{String(item)}</span>
-  //         ))}
-  //       </div>
-  //     )
-  //   }
-
-  //   if (typeof value === 'boolean') {
-  //     return value ? 'Yes' : 'No'
-  //   }
-
-  //   if (typeof value === 'object' && value !== null) {
-  //     return <pre>{JSON.stringify(value, null, 2)}</pre>
-  //   }
-
-  //   return String(value || '-')
-  // }
-
-  const renderValue = (value: any) => {
-    /* ======================================================
-     FILE ARRAY
-  ====================================================== */
-
-    if (Array.isArray(value) && value.length && typeof value[0] === 'object' && value[0]?.file) {
-      return (
-        <div className="uploadedFiles">
-          {value.map((item: any, i: number) => {
-            const file = item.file
-
-            return (
-              <a
-                key={i}
-                href={file?.url}
-                target="_blank"
-                rel="noopener noreferrer"
-                className="uploadedFile"
-              >
-                📎 {file?.filename || 'View File'}
-              </a>
-            )
-          })}
-        </div>
-      )
-    }
-
-    /* ======================================================
-     NORMAL ARRAY
-  ====================================================== */
-
-    if (Array.isArray(value)) {
-      return (
-        <div className="fieldTags">
-          {value.map((item, i) => (
-            <span key={i}>{String(item)}</span>
-          ))}
-        </div>
-      )
-    }
-
-    /* ======================================================
-     BOOLEAN
-  ====================================================== */
-
-    if (typeof value === 'boolean') {
-      return value ? 'Yes' : 'No'
-    }
-
-    /* ======================================================
-     OBJECT
-  ====================================================== */
-
-    if (typeof value === 'object' && value !== null) {
-      return <pre>{JSON.stringify(value, null, 2)}</pre>
-    }
-
-    return String(value || '-')
-  }
-
-
-   /* ======================================================
      EXCEL DOWNLOAD FUNCTION
   ====================================================== */
+
   const downloadExcel = () => {
-    // Ippo active ah irukura Event registrations-ai mattum edukirom
-    const currentEventData = groupedEvents[selectedEvent] || []
-    
-    if (currentEventData.length === 0) {
+    if (currentItems.length === 0) {
       alert('No data available to export!')
       return
     }
 
-    // Excel-ku yetha mathiri simple row structural format-ku data-va mathuroam
-    const excelRows = currentEventData.map((item: any) => {
-      // Custom values (Form fields) iruntha athai text ah mathuroam
-      const customValues = item.values 
-        ? Object.entries(item.values).map(([k, v]) => `${k}: ${String(v)}`).join(', ')
-        : ''
-
-      // Attachment links-ai sethu row-il dynamic ah kaata
-      const files = item.attachments
-        ? item.attachments.map((f: any, i: number) => f?.file?.url || `File ${i+1}`).join(' | ')
-        : ''
-
-      return {
+    const excelRows = currentItems.map((item: any) => {
+      const rowData: Record<string, any> = {
         'Registration ID': item.id || '-',
-        'Name': item.name || item.values?.name || '-',
-        'Email': item.email || item.values?.email || '-',
-        'Phone': item.phone || item.values?.phone || '-',
-        'Week': item?.week?.title || 'No Week',
-        'Event Title': selectedEvent,
-        'Status': item.status || 'pending',
-        'Additional Form Fields': customValues,
-        'Uploaded Files Links': files
+        Status: item.status || 'pending',
       }
+
+      if (item.name) rowData['Name'] = item.name
+      if (item.email) rowData['Email'] = item.email
+      if (item.phone) rowData['Phone'] = item.phone
+
+      dynamicKeys.forEach((key) => {
+        const headerLabel = formatHeader(key)
+        const val = item.values?.[key]
+        rowData[headerLabel] = val !== undefined && val !== null ? String(val) : '-'
+      })
+
+      // FORMAT FULL ABSOLUTE MEDIA URLS
+      const files = Array.isArray(item.attachments)
+        ? item.attachments
+            .map((f: any) => {
+              const fileObjUrl = typeof f?.file === 'object' ? f?.file?.url : f?.file
+              return getFullMediaUrl(fileObjUrl)
+            })
+            .filter(Boolean)
+            .join(' | ')
+        : ''
+
+      rowData['Uploaded Files'] = files || '-'
+      rowData['Submitted Date'] = item.createdAt ? new Date(item.createdAt).toLocaleString() : '-'
+
+      return rowData
     })
 
-    // Workbook matrum Worksheet create seiyuthal
     const worksheet = XLSX.utils.json_to_sheet(excelRows)
     const workbook = XLSX.utils.book_new()
     XLSX.utils.book_append_sheet(workbook, worksheet, 'Registrations')
 
-    // Column widths neat ah adjust panna
-    const max_width = excelRows.reduce((w: number, r: { Name: any; Email: any }) => Math.max(w, l(r.Name), l(r.Email)), 10)
-    worksheet['!cols'] = [{ wch: 15 }, { wch: 25 }, { wch: 30 }, { wch: 15 }, { wch: 15 }, { wch: 25 }, { wch: 12 }, { wch: 40 }]
-
-    function l(x: any) { return x ? x.toString().length : 10 }
-
-    // Excel file name setting (e.g., Summer_Week_1_Event_Name.xlsx)
-    const fileName = `${activeTab}_${selectedWeek}_${selectedEvent}`.replace(/[^a-z0-9]/gi, '_').toLowerCase()
-    
-    // File download trigger
-    XLSX.writeFile(workbook, `${fileName}_registrations.xlsx`)
+    const filePrefix =
+      selectedEvent === 'ALL'
+        ? 'all_registrations'
+        : selectedEvent.replace(/[^a-z0-9]/gi, '_').toLowerCase()
+    XLSX.writeFile(workbook, `${filePrefix}_export.xlsx`)
   }
-
-    const currentItems = groupedEvents[selectedEvent] || []
-
 
   return (
     <div className="eventDashboard">
-      {/* HERO */}
-
+      {/* HERO SECTION */}
       <div className="eventDashboard__hero">
         <div>
           <p className="eventDashboard__eyebrow">EVENT MANAGEMENT</p>
-
           <h1 className="eventDashboard__title">Registrations Dashboard</h1>
-
-          <p className="eventDashboard__subtitle">Manage registrations across all events</p>
+          <p className="eventDashboard__subtitle">Manage and export all event submissions</p>
         </div>
 
         <div className="eventDashboard__stats">
           <div className="statCard">
             <h3>{data.length}</h3>
-
-            <p>Total Registrations</p>
+            <p>Total Submissions</p>
           </div>
 
           <div className="statCard">
-            <h3>{Object.keys(groupedEvents).length}</h3>
-
-            <p>Total Events</p>
+            <h3>{currentItems.length}</h3>
+            <p>Filtered Registrations</p>
           </div>
-                 {/* EXCEL EXPORT BUTTON */}
-          <button 
-            className="downloadExcelBtn" 
+
+          <button
+            className="downloadExcelBtn"
             onClick={downloadExcel}
             disabled={currentItems.length === 0}
-            style={{
-              padding: '10px 20px',
-              backgroundColor: '#217346', // Excel green color
-              color: 'white',
-              border: 'none',
-              borderRadius: '6px',
-              cursor: currentItems.length === 0 ? 'not-allowed' : 'pointer',
-              fontWeight: 'bold',
-              marginTop: '10px'
-            }}
           >
             📊 Export to Excel
           </button>
         </div>
       </div>
 
-      {/* MAIN TABS */}
-
-      <div className="eventDashboard__tabs">
-        <button
-          onClick={() => setActiveTab('summer')}
-          className={`tabButton ${activeTab === 'summer' ? 'active' : ''}`}
-        >
-          Summer
-        </button>
-
-        <button
-          onClick={() => setActiveTab('contest')}
-          className={`tabButton ${activeTab === 'contest' ? 'active' : ''}`}
-        >
-          Contest
-        </button>
-      </div>
-
-      {/* WEEK TABS */}
-
+      {/* WEEK / CATEGORY SUBTABS WITH 'ALL' OPTION */}
       <div className="subTabs">
+        <button
+          onClick={() => {
+            setSelectedWeek('ALL')
+            setSelectedEvent('ALL')
+          }}
+          className={`subTabButton ${selectedWeek === 'ALL' ? 'active' : ''}`}
+        >
+          All Registrations <span>({data.length})</span>
+        </button>
+
         {Object.keys(groupedWeeks).map((week, index) => (
           <button
             key={index}
-            onClick={() => setSelectedWeek(week)}
+            onClick={() => {
+              setSelectedWeek(week)
+              setSelectedEvent('ALL')
+            }}
             className={`subTabButton ${selectedWeek === week ? 'active' : ''}`}
           >
-            {week}
-
-            <span>{groupedWeeks[week].length}</span>
+            {week} <span>({groupedWeeks[week]?.length ?? 0})</span>
           </button>
         ))}
       </div>
 
-      {/* EVENT TABS */}
-
-      <div className="subTabs">
-        {Object.keys(groupedEvents).map((title, index) => (
+      {/* EVENT TITLE SUBTABS */}
+      {Object.keys(groupedEvents).length > 0 && (
+        <div className="subTabs">
           <button
-            key={index}
-            onClick={() => setSelectedEvent(title)}
-            className={`subTabButton ${selectedEvent === title ? 'active' : ''}`}
+            onClick={() => setSelectedEvent('ALL')}
+            className={`subTabButton ${selectedEvent === 'ALL' ? 'active' : ''}`}
           >
-            {title}
-
-            <span>{groupedEvents[title].length}</span>
+            All Events{' '}
+            <span>
+              ({(selectedWeek === 'ALL' ? data : groupedWeeks[selectedWeek] || []).length})
+            </span>
           </button>
-        ))}
-      </div>
 
-      {/* CONTENT */}
+          {Object.keys(groupedEvents).map((title, index) => (
+            <button
+              key={index}
+              onClick={() => setSelectedEvent(title)}
+              className={`subTabButton ${selectedEvent === title ? 'active' : ''}`}
+            >
+              {title} <span>({groupedEvents[title]?.length || 0})</span>
+            </button>
+          ))}
+        </div>
+      )}
 
+      {/* REGISTRATION DATA TABLE */}
       {loading ? (
         <div className="loadingState">Loading registrations...</div>
       ) : (
-        <div className="registrationGrid">
-          {groupedEvents[selectedEvent]?.length ? (
-            groupedEvents[selectedEvent].map((item: any, index: number) => (
-              <div key={index} className="registrationCard">
-                {/* TOP */}
+        <div className="registrationTableWrapper">
+          {currentItems.length > 0 ? (
+            <table className="registrationTable">
+              <thead>
+                <tr>
+                  <th className="id-col">ID</th>
 
-                <div className="registrationCard__top">
-                  <div className="avatar">
-                    {Object.values(item.values || {})[0]
-                      ?.toString()
-                      ?.charAt(0) || 'U'}
-                  </div>
-
-                  <div>
-                    <h3>
-                      {item?.summer?.eventFields?.title ||
-                        item?.summer?.title ||
-                        item?.contest?.eventFields?.title ||
-                        item?.contest?.title ||
-                        item?.eventTitle ||
-                        'Untitled Event'}
-                    </h3>
-
-                    <p>Registration #{item.id}</p>
-                  </div>
-                </div>
-
-                {/* STATUS */}
-
-                <div className="registrationCard__status">
-                  <span className={`status status--${item.status || 'pending'}`}>
-                    {item.status || 'pending'}
-                  </span>
-                </div>
-
-                {/* WEEK */}
-
-                <div className="registrationCard__week">
-                  <strong>Week:</strong> {item?.week?.title || 'No Week'}
-                </div>
-
-                {/* FIELDS */}
-
-                {/* <div className="registrationCard__fields">
-                  {Object.entries(item.values || {}).map(([key, value]: any, i) => (
-                    <div key={i} className="fieldItem">
-                      <span className="fieldLabel">{formatLabel(key)}</span>
-
-                      <div className="fieldValue">{renderValue(value)}</div>
-                    </div>
-                  ))}
-
-                  {item.attachments?.length > 0 && (
-                    <div className="fieldItem">
-                      <span className="fieldLabel">Uploaded Files</span>
-
-                      <div className="fieldValue">{renderValue(item.attachments)}</div>
-                    </div>
+                  {/* DYNAMIC FORM FIELDS COLUMNS */}
+                  {dynamicKeys.length > 0 ? (
+                    dynamicKeys.map((key) => {
+                      const label = formatHeader(key)
+                      return (
+                        <th key={key} title={label} className="dynamic-col">
+                          {label}
+                        </th>
+                      )
+                    })
+                  ) : (
+                    <>
+                      <th>Name</th>
+                      <th>Email</th>
+                      <th>Phone</th>
+                    </>
                   )}
-                </div> */}
 
-                <div className="registrationTableWrapper">
-                  <table className="registrationTable">
-                    <thead>
-                      <tr>
-                        <th>Name</th>
-                        <th>Email</th>
-                        <th>Phone</th>
-                        <th>Event</th>
-                        <th>Status</th>
-                        <th>Files</th>
-                      </tr>
-                    </thead>
+                  <th className="attachment-col">Attachments</th>
+                  <th className="date-col">Submitted Date</th>
+                </tr>
+              </thead>
+              <tbody>
+                {currentItems.map((item: any, idx: number) => (
+                  <tr key={item.id || idx}>
+                    <td className="id-col">#{item.id}</td>
 
-                    <tbody>
-                      {groupedEvents[selectedEvent]?.map((item: any, index: number) => (
-                        <tr key={index}>
-                          <td>{item?.name}</td>
-
-                          <td>{item?.email}</td>
-
-                          <td>{item?.phone}</td>
-
-                          <td>{item?.summer?.eventFields?.title || item?.summer?.title}</td>
-
-                          <td>
-                            <span className={`status status--${item.status}`}>{item.status}</span>
+                    {/* DYNAMIC FIELD VALUES */}
+                    {dynamicKeys.length > 0 ? (
+                      dynamicKeys.map((key) => {
+                        const val = item.values?.[key]
+                        return (
+                          <td key={key} className="dynamic-col">
+                            {val !== undefined && val !== null && val !== '' ? (
+                              typeof val === 'boolean' ? (
+                                val ? (
+                                  'Yes'
+                                ) : (
+                                  'No'
+                                )
+                              ) : (
+                                String(val)
+                              )
+                            ) : (
+                              <span className="emptyValue">-</span>
+                            )}
                           </td>
+                        )
+                      })
+                    ) : (
+                      <>
+                        <td>{item.name || '-'}</td>
+                        <td>{item.email || '-'}</td>
+                        <td>{item.phone || '-'}</td>
+                      </>
+                    )}
 
-                          <td>
-                            {item.attachments?.map((fileItem: any, i: number) => (
-                              <a key={i} href={fileItem?.file?.url} target="_blank">
+                    {/* ATTACHMENTS WITH FULL URL */}
+                    <td className="attachment-col">
+                      {Array.isArray(item.attachments) && item.attachments.length > 0 ? (
+                        <div className="attachmentList">
+                          {item.attachments.map((fileItem: any, i: number) => {
+                            const rawUrl =
+                              typeof fileItem?.file === 'object'
+                                ? fileItem?.file?.url
+                                : fileItem?.file
+                            const fileUrl = getFullMediaUrl(rawUrl)
+
+                            return fileUrl ? (
+                              <a
+                                key={i}
+                                href={fileUrl}
+                                target="_blank"
+                                rel="noreferrer"
+                                className="fileLink"
+                              >
                                 File {i + 1}
                               </a>
-                            ))}
-                          </td>
-                        </tr>
-                      ))}
-                    </tbody>
-                  </table>
-                </div>
-              </div>
-            ))
+                            ) : null
+                          })}
+                        </div>
+                      ) : (
+                        <span className="emptyValue">No files</span>
+                      )}
+                    </td>
+
+                    <td className="date-col">
+                      {item.createdAt ? new Date(item.createdAt).toLocaleDateString() : '-'}
+                    </td>
+                  </tr>
+                ))}
+              </tbody>
+            </table>
           ) : (
-            <div className="emptyState">No registrations found</div>
+            <div className="emptyState">No registrations found for this selection.</div>
           )}
         </div>
       )}

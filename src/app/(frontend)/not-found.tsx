@@ -8,11 +8,10 @@ import { ArrowRight, Home, Coffee, Sparkles, CloudRain, Sun } from 'lucide-react
 export default function NotFound() {
   return (
     <section className="relative min-h-screen w-full overflow-hidden bg-gradient-to-r from-sky-200 via-sky-100 via-amber-100 to-amber-200 text-slate-800 flex flex-col justify-between items-center px-4 sm:px-6 py-10 md:py-16">
-      
       {/* =========================================================
          1. DUAL WEATHER ATMOSPHERE BACKGROUND (RAINY LEFT + SUNNY RIGHT)
       ========================================================= */}
-      
+
       {/* LEFT SIDE: COOL RAINY CLOUD GLOWS */}
       <div className="absolute top-[-10%] left-[-10%] h-[500px] sm:h-[600px] w-[500px] sm:w-[600px] rounded-full bg-slate-400/30 blur-[140px] pointer-events-none" />
       <div className="absolute bottom-[10%] left-[-5%] h-[400px] sm:h-[500px] w-[400px] sm:w-[500px] rounded-full bg-sky-500/25 blur-[140px] pointer-events-none" />
@@ -42,7 +41,7 @@ export default function NotFound() {
               delay: (i % 7) * 0.2,
             }}
             style={{
-              left: `${(i * 5.5) + 2}%`,
+              left: `${i * 5.5 + 2}%`,
             }}
             className="absolute w-[2px] h-8 sm:h-12 bg-gradient-to-b from-transparent via-sky-400 to-sky-600 rounded-full"
           />
@@ -103,7 +102,6 @@ export default function NotFound() {
          3. MAIN CONTENT CONTAINER
       ========================================================= */}
       <div className="relative z-30 w-full max-w-4xl mx-auto text-center flex-1 flex flex-col justify-center items-center pb-32 pt-8">
-        
         {/* CHENNAI WEATHER & COFFEE BADGE */}
         <motion.div
           initial={{ opacity: 0, y: -20 }}
@@ -144,7 +142,8 @@ export default function NotFound() {
           </h2>
 
           <p className="mt-3 sm:mt-4 text-sm sm:text-base md:text-lg text-slate-700 max-w-xl mx-auto leading-relaxed font-medium">
-            Looks like you've wandered off into a sudden Chennai rain shower! Grab a hot Degree Coffee, relax, and let us guide you back to the happening events.
+            Looks like you&apos;ve wandered off into a sudden Chennai rain shower! Grab a hot Degree
+            Coffee, relax, and let us guide you back to the happening events.
           </p>
         </motion.div>
 
@@ -178,7 +177,6 @@ export default function NotFound() {
          4. CHENNAI LANDSCAPE SILHOUETTE WITH ANIMATED AUTO RICKSHAW
       ========================================================= */}
       <div className="absolute bottom-0 left-0 right-0 h-36 sm:h-48 md:h-60 pointer-events-none z-10 overflow-hidden">
-        
         {/* AUTO RICKSHAW ROAD ANIMATION */}
         <div className="absolute bottom-12 sm:bottom-16 md:bottom-20 left-0 right-0 h-1 bg-gradient-to-r from-sky-400/40 via-amber-400/60 to-orange-400/40 z-20">
           <motion.div
@@ -201,7 +199,11 @@ export default function NotFound() {
           {/* TEMPLE GOPURAM (LEFT) */}
           <path d="M 30,200 L 30,150 L 40,150 L 45,120 L 50,120 L 55,90 L 60,90 L 65,60 L 75,30 L 85,30 L 95,60 L 100,90 L 105,90 L 110,120 L 115,120 L 120,150 L 130,150 L 130,200 Z" />
           <path d="M 77,30 L 77,20 L 80,15 L 83,20 L 83,30 Z" />
-          <path d="M 67,60 L 93,60 M 62,90 L 98,90 M 57,120 L 103,120" stroke="currentColor" strokeWidth="2" />
+          <path
+            d="M 67,60 L 93,60 M 62,90 L 98,90 M 57,120 L 103,120"
+            stroke="currentColor"
+            strokeWidth="2"
+          />
 
           {/* METRO PILLARS (CENTER) */}
           <path d="M 200,200 L 200,120 L 220,120 L 220,200 Z" />
@@ -212,10 +214,18 @@ export default function NotFound() {
           <path d="M 1020,200 L 1030,70 L 1050,70 L 1060,200 Z" />
           <path d="M 1025,70 L 1025,55 L 1055,55 L 1055,70 Z" />
           <path d="M 1040,55 L 1040,40" stroke="currentColor" strokeWidth="3" />
-          <path d="M 1120,200 Q 1125,140 1150,110 Q 1120,110 1100,120 M 1150,110 Q 1170,90 1190,105 M 1150,110 Q 1160,130 1180,140" stroke="currentColor" strokeWidth="4" strokeLinecap="round" />
+          <path
+            d="M 1120,200 Q 1125,140 1150,110 Q 1120,110 1100,120 M 1150,110 Q 1170,90 1190,105 M 1150,110 Q 1160,130 1180,140"
+            stroke="currentColor"
+            strokeWidth="4"
+            strokeLinecap="round"
+          />
 
           {/* MARINA OCEAN BASELINE */}
-          <path d="M 0,185 Q 150,175 300,185 T 600,185 T 900,185 T 1200,185 L 1200,200 L 0,200 Z" opacity="0.8" />
+          <path
+            d="M 0,185 Q 150,175 300,185 T 600,185 T 900,185 T 1200,185 L 1200,200 L 0,200 Z"
+            opacity="0.8"
+          />
         </svg>
 
         {/* LIGHTHOUSE ROTATING BEAM */}

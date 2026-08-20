@@ -2,28 +2,34 @@ import { NextResponse } from 'next/server'
 import { getPayload } from 'payload'
 import config from '@payload-config'
 
-export async function GET() {
+export async function GET(req: Request, { params }: { params: Promise<{ slug: string }> }) {
   try {
+    const { slug } = await params
+
     const payload = await getPayload({
       config,
     })
-    const registrations = await payload.find({
-      collection: 'summer-registrations',
-      limit: 1000,
+
+    const event = await payload.find({
+      collection: 'lets-talks-chennai',
+      where: {
+        slug: {
+          equals: slug,
+        },
+      },
       depth: 3,
+      limit: 1,
     })
+
     return NextResponse.json({
       success: true,
-      docs: registrations.docs,
-      totalDocs: registrations.totalDocs,
+      doc: event.docs?.[0] || null,
     })
   } catch (error: any) {
-    console.log('SUMMER DASHBOARD ERROR:', error)
-
     return NextResponse.json(
       {
         success: false,
-        message: error?.message || 'Something went wrong',
+        message: error.message,
       },
       {
         status: 500,
