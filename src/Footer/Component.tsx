@@ -54,13 +54,13 @@ export default async function Footer() {
                   href={item?.url}
                   target="_blank"
                   rel="noreferrer"
-                  className="group relative flex h-11 w-11 items-center justify-center overflow-hidden rounded-full border border-purple-300/30 bg-white/10 backdrop-blur-md transition-all duration-300 hover:-translate-y-1 hover:border-amber-400 hover:bg-gradient-to-br hover:from-amber-400 hover:to-orange-500 hover:shadow-lg hover:shadow-orange-500/30"
+                  className="group relative flex h-10 w-10 items-center justify-center overflow-hidden rounded-full transition-all duration-300"
                   aria-label={item?.platform}
                 >
                   <img
                     src={imageUrl}
                     alt={item?.platform}
-                    className="h-5 w-5 object-contain filter invert opacity-90 transition-all duration-300 group-hover:invert-0 group-hover:opacity-100 group-hover:scale-110"
+                    className="h-10 w-10 object-contain  transition-all duration-300 group-hover:invert-0 group-hover:opacity-100 group-hover:scale-110"
                   />
                 </a>
               )
