@@ -66,11 +66,11 @@ export default function AboutEventBlockComponent({
           <div className="lg:col-span-5 space-y-8">
             {/* HEADING */}
             <div>
-              <h2 className="text-2xl font-bold tracking-wide text-[#005B70] mt-0 mb-0">
-                {heading} <span className="text-[#E0533C]">{highlightText}</span>
+              <h2 className="text-2xl font-bold tracking-wide text-[#ec265b] mt-0 mb-0">
+                {heading} <span className="text-[#6d4399]">{highlightText}</span>
               </h2>
 
-              <div className="mt-3 h-1 w-14 rounded bg-[#FCBA13]" />
+              <div className="mt-3 h-1 w-14 rounded bg-[#ffabb1cc]" />
             </div>
 
             {/* DESCRIPTION */}
@@ -126,8 +126,8 @@ export default function AboutEventBlockComponent({
             </div>
 
             {/* LOCATION CARD */}
-            <div className="flex items-start gap-4 rounded-2xl border border-[#D9ECF0] bg-[#EDF6F7] p-5">
-              <div className="flex h-12 w-12 shrink-0 items-center justify-center rounded-full bg-[#005B70] text-white shadow-sm">
+            <div className="flex items-start gap-4 rounded-2xl border border-[#D9ECF0] bg-[#fff1f2cc] p-5">
+              <div className="flex h-12 w-12 shrink-0 items-center justify-center rounded-full bg-[#ec265b] text-white shadow-sm">
                 <MapPin className="h-7 w-7" />
               </div>
 
