@@ -135,15 +135,16 @@ export default function NotFound() {
           className="px-2"
         >
           <h2 className="text-2xl sm:text-4xl md:text-5xl font-black text-[#061E43] tracking-tight">
-            Mazhai Oru Pakkam, Sun-u Oru Pakkam...{' '}
+            Unpredictable Weather,{' '}
             <span className="bg-gradient-to-r from-sky-600 via-amber-500 to-orange-500 bg-clip-text text-transparent">
-              Namma Chennai!
+              Unmissable Experiences!
             </span>
           </h2>
 
           <p className="mt-3 sm:mt-4 text-sm sm:text-base md:text-lg text-slate-700 max-w-xl mx-auto leading-relaxed font-medium">
-            Looks like you&apos;ve wandered off into a sudden Chennai rain shower! Grab a hot Degree
-            Coffee, relax, and let us guide you back to the happening events.
+            Whether it&apos;s a sudden shower or a bright sunny afternoon, Chennai never stops
+            moving. Take a moment, sip your favorite brew, and explore the finest events happening
+            around you.
           </p>
         </motion.div>
 
@@ -162,14 +163,14 @@ export default function NotFound() {
             Back To Homepage
           </Link>
 
-          <Link
+          {/* <Link
             href="/events"
             className="w-full sm:w-auto group inline-flex items-center justify-center gap-3 rounded-full border border-sky-300 bg-white/80 px-8 py-4 text-sky-900 font-semibold backdrop-blur-md transition-all duration-300 hover:bg-sky-600 hover:text-white hover:border-sky-600 shadow-sm"
           >
             <Sparkles className="h-4 w-4 text-amber-500 group-hover:text-amber-300" />
             Explore Chennai Events
             <ArrowRight className="h-5 w-5 transition-transform duration-300 group-hover:translate-x-1" />
-          </Link>
+          </Link> */}
         </motion.div>
       </div>
 
