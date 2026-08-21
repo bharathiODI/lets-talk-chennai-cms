@@ -44,6 +44,7 @@ export const LetsTalkChennai: CollectionConfig<'lets-talks-chennai'> = {
     title: true,
     slug: true,
   },
+  defaultSort: 'order',
   admin: {
     defaultColumns: ['title', 'slug', 'updatedAt'],
     livePreview: {
@@ -283,6 +284,17 @@ export const LetsTalkChennai: CollectionConfig<'lets-talks-chennai'> = {
       type: 'date',
       admin: {
         position: 'sidebar',
+      },
+    },
+
+    {
+      name: 'order',
+      type: 'number',
+      label: 'Display Order / Priority',
+      defaultValue: 10,
+      admin: {
+        position: 'sidebar',
+        description: 'குறைந்த எண் (1, 2, 3) முதலில் தோன்றும்.',
       },
     },
     ...slugField(),

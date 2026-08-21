@@ -70,11 +70,11 @@ export default async function Footer() {
           {/* CENTER — COPYRIGHT & CHENNAI SPARKLE */}
           <div className="text-center">
             <p className="text-sm font-medium tracking-wide text-purple-100/90">
-              {copyright || '© 2026 Discover Chennai. All Rights Reserved.'}
+              {copyright || ''}
             </p>
-            <span className="mt-1 block text-[11px] font-semibold uppercase tracking-widest text-amber-400/80">
+            {/* <span className="mt-1 block text-[11px] font-semibold uppercase tracking-widest text-amber-400/80">
               Crafted with Warmth in Chennai 🌊
-            </span>
+            </span> */}
           </div>
 
           {/* RIGHT SIDE — COMPANY EMAIL & CONTACT */}

@@ -37,6 +37,7 @@ import {
 } from '@payloadcms/richtext-lexical'
 import { LetsTalkChennaiBlockBanner } from '@/blocks/LetsTalkBanner/config'
 import { AboutChennaiBlock } from '@/blocks/AboutChennaiBlock/config'
+import { AboutLetsTalkChennaiBlock } from '@/blocks/AboutLetsTalkChennaiBlock/config'
 
 export const Pages: CollectionConfig<'pages'> = {
   slug: 'pages',
@@ -100,6 +101,7 @@ export const Pages: CollectionConfig<'pages'> = {
                         Code,
                         MediaBlock,
                         VideoBlock,
+                        AboutLetsTalkChennaiBlock,
                         AboutChennaiBlock,
                         EventListing,                
                         ImageBlock,

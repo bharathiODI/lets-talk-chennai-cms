@@ -16,6 +16,12 @@ export const EventRegistrationFormBlock: Block = {
       label: 'Show Form Section',
     },
     {
+      name: 'mainsectionTitle',
+      type: 'text',
+      defaultValue: 'Main Register For This Event',
+      label: 'main',
+    },
+    {
       name: 'sectionTitle',
       type: 'text',
       defaultValue: 'Register For This Event',

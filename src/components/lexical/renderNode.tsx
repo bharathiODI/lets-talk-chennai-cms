@@ -1,4 +1,3 @@
-
 import { renderText } from './renderText'
 
 import AboutEventBlockComponent from '@/blocks/AboutEvent/Component'
@@ -17,6 +16,7 @@ import VideoBlock from './blocks/VideoBlock'
 import LetsTalkChennaiComponent from '@/blocks/LetsTalkBanner/Component'
 import AboutChennaiBlockComponent from '@/blocks/AboutChennaiBlock/Component'
 import { AboutUsBlockComponent } from '@/blocks/AboutUs/Component'
+import AboutletsTalkChennaiBlockComponent from '@/blocks/AboutLetsTalkChennaiBlock/component'
 
 export function renderNode(node: any, idx: number, eventData?: any): React.ReactNode {
   /* ------------------------------------------------
@@ -121,8 +121,10 @@ export function renderNode(node: any, idx: number, eventData?: any): React.React
       if (blockType === 'aboutUs') {
         return <AboutUsBlockComponent key={idx} {...node.fields} />
       }
-    
 
+      if (blockType === 'aboutLetsTalkChennaiBlock') {
+        return <AboutletsTalkChennaiBlockComponent key={idx} {...node.fields} />
+      }
 
       /* =========================================================
          EVENT REGISTRATION BLOCK (Multiple Name Fallbacks)
@@ -138,11 +140,7 @@ export function renderNode(node: any, idx: number, eventData?: any): React.React
         })
 
         return (
-          <EventRegistrationBlockComponent
-            key={idx}
-            block={node.fields}
-            eventData={eventData}
-          />
+          <EventRegistrationBlockComponent key={idx} block={node.fields} eventData={eventData} />
         )
       }
 

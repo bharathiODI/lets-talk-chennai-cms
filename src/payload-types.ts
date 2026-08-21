@@ -545,6 +545,10 @@ export interface LetsTalksChennai {
     | boolean
     | null;
   publishedAt?: string | null;
+  /**
+   * குறைந்த எண் (1, 2, 3) முதலில் தோன்றும்.
+   */
+  order?: number | null;
   slug?: string | null;
   slugLock?: boolean | null;
   updatedAt: string;
@@ -1381,6 +1385,7 @@ export interface LetsTalksChennaiSelect<T extends boolean = true> {
       };
   schema?: T;
   publishedAt?: T;
+  order?: T;
   slug?: T;
   slugLock?: T;
   updatedAt?: T;

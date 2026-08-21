@@ -9,12 +9,20 @@
   }
 }
 
-.aboutttsectionnnnew {
+/* .aboutttsectionnnnew {
   background-image: url('/app-images/backg.png');
   background-size: cover;
   background-repeat: no-repeat;
   background-position: center;
   height: 636px;
+} */
+
+.aboutttsectionnnnew {
+  background-image: url('/app-images/backg.png');
+  background-size: cover;
+  background-repeat: no-repeat;
+  background-position: center;
+  height: 436px;
 }
 
 .aboutttsectionnnnew p {
@@ -68,7 +76,7 @@
     background-size: 142%;
     background-repeat: no-repeat;
     background-position: bottom;
-    height: 650px;
+    height: 850px;
     background-color: #fef1df;
   }
 

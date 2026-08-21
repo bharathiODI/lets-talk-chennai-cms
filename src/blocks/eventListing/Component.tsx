@@ -131,11 +131,33 @@ export default function EventListingComponent({
     fetchEvents()
   }, [])
 
+  // const fetchEvents = async () => {
+  //   try {
+  //     setLoading(true)
+  //     const res = await axios.get('/api/lets-talks-chennai-lisitngs')
+  //     setEvents(res?.data?.docs || [])
+  //   } catch (error) {
+  //     console.error('Error fetching events:', error)
+  //   } finally {
+  //     setLoading(false)
+  //   }
+  // }
+
   const fetchEvents = async () => {
     try {
       setLoading(true)
-      const res = await axios.get('/api/lets-talks-chennai-lisitngs')
-      setEvents(res?.data?.docs || [])
+
+      const res = await axios.get('/api/lets-talks-chennai-lisitngs?sort=order&limit=100000')
+
+      const rawDocs = res?.data?.docs || []
+
+      const sortedDocs = [...rawDocs].sort((a: any, b: any) => {
+        const orderA = typeof a.order === 'number' ? a.order : 9999
+        const orderB = typeof b.order === 'number' ? b.order : 9999
+        return orderA - orderB
+      })
+
+      setEvents(sortedDocs)
     } catch (error) {
       console.error('Error fetching events:', error)
     } finally {
