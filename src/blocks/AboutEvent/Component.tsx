@@ -66,6 +66,8 @@ export default function AboutEventBlockComponent({
           <div className="lg:col-span-5 space-y-8">
             {/* HEADING */}
             <div>
+              <h1 className="sr-only">{[heading, highlightText].filter(Boolean).join(' ')}</h1>
+
               <h2 className="text-2xl font-bold tracking-wide text-[#ec265b] mt-0 mb-0">
                 {heading} <span className="text-[#6d4399]">{highlightText}</span>
               </h2>

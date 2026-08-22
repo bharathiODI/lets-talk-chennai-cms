@@ -41,7 +41,10 @@ type Props = {
 ========================================================= */
 
 const normalizeFieldName = (name?: string) =>
-  name?.trim()?.toLowerCase()?.replace(/[^a-z0-9]/g, '_') || ''
+  name
+    ?.trim()
+    ?.toLowerCase()
+    ?.replace(/[^a-z0-9]/g, '_') || ''
 
 const getFieldValue = (formData: Record<string, any>, fieldName: string) =>
   formData[normalizeFieldName(fieldName)]
@@ -103,7 +106,10 @@ const EventRegistrationBlockComponent: React.FC<Props> = ({ block, eventData }) 
     for (const field of customFields) {
       const value = getFieldValue(formData, field.name)
 
-      if (field.required && (value === undefined || value === null || value === '' || value === false)) {
+      if (
+        field.required &&
+        (value === undefined || value === null || value === '' || value === false)
+      ) {
         toast.error(`${field.label.replace('*', '').trim()} is required`)
         return false
       }
@@ -244,13 +250,12 @@ const EventRegistrationBlockComponent: React.FC<Props> = ({ block, eventData }) 
             name={fieldName}
             placeholder={field.placeholder || `Enter ${field.label}`}
             required={field.required}
-           rows={10}
+            rows={10}
             value={getFieldValue(formData, field.name) || ''}
             onChange={(e) => handleChange(field.name, e.target.value)}
             className={commonClass}
           />
         )
-        
 
       case 'select':
         return (
@@ -282,7 +287,10 @@ const EventRegistrationBlockComponent: React.FC<Props> = ({ block, eventData }) 
               onChange={(e) => handleChange(field.name, e.target.checked)}
               className="mt-0.5 h-5 w-5 rounded border-gray-300 text-orange-500 focus:ring-orange-500 cursor-pointer"
             />
-            <label htmlFor={fieldName} className="text-xs text-gray-700 leading-relaxed cursor-pointer">
+            <label
+              htmlFor={fieldName}
+              className="text-xs text-gray-700 leading-relaxed cursor-pointer"
+            >
               <span className="font-semibold text-gray-900">{field.label}</span>
               {field.required && <span className="text-red-500 ml-1">*</span>}
               {field.description && (
@@ -406,7 +414,9 @@ const EventRegistrationBlockComponent: React.FC<Props> = ({ block, eventData }) 
                 </h3>
 
                 {block?.sectionDescrption && (
-                  <p className="mt-2 lg:text-[16px] lg:w-[80%]  text-sm text-gray-600 leading-relaxed">{block.sectionDescrption}</p>
+                  <p className="mt-2 lg:text-[16px] lg:w-[80%]  text-sm text-gray-600 leading-relaxed">
+                    {block.sectionDescrption}
+                  </p>
                 )}
 
                 {/* RESPONSIVE 2-COLUMN GRID LAYOUT */}
@@ -426,7 +436,8 @@ const EventRegistrationBlockComponent: React.FC<Props> = ({ block, eventData }) 
                         >
                           {field.type !== 'checkbox' && (
                             <label className="block lg:text-[15px] text-xs font-bold uppercase tracking-wider text-gray-700 ">
-                              {field.label} {field.required && <span className="text-red-500">*</span>}
+                              {field.label}{' '}
+                              {field.required && <span className="text-red-500">*</span>}
                             </label>
                           )}
 
@@ -485,7 +496,7 @@ const EventRegistrationBlockComponent: React.FC<Props> = ({ block, eventData }) 
                       disabled={loading}
                       className="w-full rounded-xl bg-[#6d4399]  py-4 text-sm font-extrabold uppercase tracking-widest text-white shadow-xl  transition-all hover:scale-[1.01] hover:shadow-[#01236a]-500/30 active:scale-[0.99] disabled:opacity-50"
                     >
-                      {loading ? 'Submitting...' : 'Complete Registration'}
+                      {loading ? 'Submitting...' : 'Complete Sharing'}
                     </button>
                   </div>
                 </form>
