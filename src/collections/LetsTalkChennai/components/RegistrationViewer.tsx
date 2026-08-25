@@ -47,7 +47,7 @@ export default function RegistrationViewer() {
             fontWeight: 700,
           }}
         >
-          Submitted Dynamic Data
+          Submitted  Data
         </h3>
       </div>
 

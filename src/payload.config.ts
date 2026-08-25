@@ -14,7 +14,9 @@ import { Posts } from './collections/Posts'
 import { defaultLexical } from 'src/fields/defaultLexical'
 import { EventDashboard } from './collections/EventDashboard'
 // import { SummerFestEvents } from './collections/LetsTalkChennai'
+import { LetsTalkChennai } from './collections/LetsTalkChennai'
 import { EventFormFields } from './collections/LetsTalkChennai/options/EventFormFields'
+import { TalkCategories } from './collections/LetsTalkChennai/options/TalkCategory'
 import { SummerRegistrations } from './collections/LetsTalkChennai/SummerRegistrations'
 import { Users } from './collections/Users'
 import { verifyOTP } from './endpoints/verifyOTP'
@@ -22,14 +24,13 @@ import Footer from './Footer/config'
 import { Header } from './Header/config'
 import { plugins } from './plugins'
 import { getServerSideURL } from './utilities/getURL'
-import { LetsTalkChennai } from './collections/LetsTalkChennai'
-import { TalkCategories } from './collections/LetsTalkChennai/options/TalkCategory'
 
 const filename = fileURLToPath(import.meta.url)
 const dirname = path.dirname(filename)
 
 export default buildConfig({
   admin: {
+    
     components: {
       beforeLogin: ['@/components/BeforeLogin'],
       beforeDashboard: ['@/components/BeforeDashboard'],

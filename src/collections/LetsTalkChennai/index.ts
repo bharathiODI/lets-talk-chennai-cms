@@ -31,21 +31,55 @@ import {
   lexicalEditor,
 } from '@payloadcms/richtext-lexical'
 import { AboutUsBlock } from '@/blocks/AboutUs/config'
+import { isNotAdmin } from '@/access/checkRole'
+import { isAdmin, isAdminAdminAccess } from '@/access/isAdmin'
 
 export const LetsTalkChennai: CollectionConfig<'lets-talks-chennai'> = {
   slug: 'lets-talks-chennai',
+  // access: {
+  //   create: authenticated,
+  //   delete: authenticated,
+  //   read: authenticatedOrPublished,
+  //   update: authenticated,
+  // },
+
   access: {
-    create: authenticated,
-    delete: authenticated,
+    // Client Direct-ah URL hittas panra access-ah block panna (Admin Only):
+    admin: isAdminAdminAccess,
+    create: isAdmin,
+    delete: isAdmin,
     read: authenticatedOrPublished,
-    update: authenticated,
+    update: isAdmin,
   },
   defaultPopulate: {
     title: true,
     slug: true,
   },
   defaultSort: 'order',
+  // admin: {
+  //   defaultColumns: ['title', 'slug', 'updatedAt'],
+  //   livePreview: {
+  //     url: ({ data, req }) => {
+  //       const path = generatePreviewPath({
+  //         slug: typeof data?.slug === 'string' ? data.slug : '',
+  //         collection: 'lets-talks-chennai',
+  //         req,
+  //       })
+
+  //       return path
+  //     },
+  //   },
+  //   preview: (data, { req }) =>
+  //     generatePreviewPath({
+  //       slug: typeof data?.slug === 'string' ? data.slug : '',
+  //       collection: 'lets-talks-chennai',
+  //       req,
+  //     }),
+  //   useAsTitle: 'title',
+  // },
   admin: {
+    // Client role logged in-ah irundha Sidebar Menu-la intha Collection Hide aagum:
+    hidden: isNotAdmin,
     defaultColumns: ['title', 'slug', 'updatedAt'],
     livePreview: {
       url: ({ data, req }) => {

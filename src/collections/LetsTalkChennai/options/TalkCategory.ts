@@ -1,5 +1,6 @@
 import { authenticated } from '@/access/authenticated'
 import { authenticatedOrPublished } from '@/access/authenticatedOrPublished'
+import { isNotAdmin } from '@/access/checkRole'
 import type { CollectionConfig } from 'payload'
 
 export const TalkCategories: CollectionConfig<'talkcategories'> = {
@@ -11,6 +12,7 @@ export const TalkCategories: CollectionConfig<'talkcategories'> = {
     update: authenticated,
   },
   admin: {
+    hidden: isNotAdmin,
     useAsTitle: 'name',
     defaultColumns: ['name', 'slug', 'updatedAt'],
   },

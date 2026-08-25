@@ -1,9 +1,11 @@
+import { isNotAdmin } from '@/access/checkRole'
 import { CollectionConfig } from 'payload'
 
 export const EventFormFields: CollectionConfig = {
   slug: 'event-form-fields',
 
   admin: {
+    hidden: isNotAdmin,
     useAsTitle: 'label',
     defaultColumns: ['label', 'name', 'type', 'required'],
   },

@@ -27,16 +27,27 @@ import {
 } from '@payloadcms/plugin-seo/fields'
 import { slugField } from 'src/fields/slug'
 import { VideoBlock } from '@/blocks/VideoBlock/config'
+import { isAdmin, isAdminAdminAccess } from '@/access/isAdmin'
+import { isNotAdmin } from '@/access/checkRole'
 
 export const Posts: CollectionConfig<'posts'> = {
   slug: 'posts',
+  // access: {
+  //   create: authenticated,
+  //   delete: authenticated,
+  //   read: authenticatedOrPublished,
+  //   // update: authenticated,
+  //   update: () => true,
+  // },
+
   access: {
-    create: authenticated,
-    delete: authenticated,
+    admin: isAdminAdminAccess,
+    create: isAdmin,
+    delete: isAdmin,
     read: authenticatedOrPublished,
-    // update: authenticated,
-    update: () => true,
+    update: isAdmin,
   },
+
   // This config controls what's populated by default when a post is referenced
   // https://payloadcms.com/docs/queries/select#defaultpopulate-collection-config-property
   // Type safe if the collection slug generic is passed to `CollectionConfig` - `CollectionConfig<'posts'>
@@ -50,6 +61,7 @@ export const Posts: CollectionConfig<'posts'> = {
     },
   },
   admin: {
+     hidden: isNotAdmin,
     defaultColumns: ['title', 'slug', 'updatedAt'],
     livePreview: {
       url: ({ data, req }) => {

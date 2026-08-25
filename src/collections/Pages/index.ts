@@ -38,6 +38,7 @@ import {
 import { LetsTalkChennaiBlockBanner } from '@/blocks/LetsTalkBanner/config'
 import { AboutChennaiBlock } from '@/blocks/AboutChennaiBlock/config'
 import { AboutLetsTalkChennaiBlock } from '@/blocks/AboutLetsTalkChennaiBlock/config'
+import { isNotAdmin } from '@/access/checkRole'
 
 export const Pages: CollectionConfig<'pages'> = {
   slug: 'pages',
@@ -52,6 +53,7 @@ export const Pages: CollectionConfig<'pages'> = {
     slug: true,
   },
   admin: {
+    hidden: isNotAdmin,
     defaultColumns: ['title', 'slug', 'updatedAt'],
     livePreview: {
       url: ({ data, req }) => {

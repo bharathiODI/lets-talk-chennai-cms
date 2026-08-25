@@ -1,10 +1,14 @@
 import { GlobalConfig } from 'payload'
 import { revalidateFooter } from './hooks/revalidateFooter'
+import { isNotAdmin } from '@/access/checkRole'
 
 const Footer: GlobalConfig = {
   slug: 'footer',
   access: {
     read: () => true,
+  },
+  admin: {
+    hidden: isNotAdmin,
   },
   fields: [
     /* =========================================================
@@ -27,8 +31,6 @@ const Footer: GlobalConfig = {
       label: 'Company Information',
 
       fields: [
-    
-
         {
           name: 'supportEmail',
           type: 'email',

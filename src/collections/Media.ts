@@ -10,6 +10,7 @@ import { fileURLToPath } from 'url'
 
 import { anyone } from '../access/anyone'
 import { authenticated } from '../access/authenticated'
+import { isNotAdmin } from '@/access/checkRole'
 // import { compressVideo } from '@/blocks/videoGallery/hook'
 
 const filename = fileURLToPath(import.meta.url)
@@ -22,6 +23,9 @@ export const Media: CollectionConfig = {
     delete: authenticated,
     read: anyone,
     update: authenticated,
+  },
+  admin: {
+    hidden: isNotAdmin,
   },
   fields: [
     {

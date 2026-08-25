@@ -10,6 +10,15 @@ export const AboutEventBlock: Block = {
 
   fields: [
     {
+      name: 'seoH1',
+      type: 'text',
+      label: 'SEO Hidden H1 Heading',
+      admin: {
+        description: 'Screen-la theriyadhu, purely for SEO H1 ranking purpose.',
+        placeholder: "Ex: Let's Talk Chennai - Annual Tech Conference 2026",
+      },
+    },
+    {
       name: 'heading',
       type: 'text',
       defaultValue: 'ABOUT',
