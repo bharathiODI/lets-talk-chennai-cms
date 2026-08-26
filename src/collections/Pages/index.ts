@@ -39,6 +39,7 @@ import { LetsTalkChennaiBlockBanner } from '@/blocks/LetsTalkBanner/config'
 import { AboutChennaiBlock } from '@/blocks/AboutChennaiBlock/config'
 import { AboutLetsTalkChennaiBlock } from '@/blocks/AboutLetsTalkChennaiBlock/config'
 import { isNotAdmin } from '@/access/checkRole'
+import { LetsTalkChennaiReelsBlock } from '@/blocks/LetsTalkChennaiReels/config'
 
 export const Pages: CollectionConfig<'pages'> = {
   slug: 'pages',
@@ -110,6 +111,7 @@ export const Pages: CollectionConfig<'pages'> = {
                         AboutEventBlock,
                         MediaBlock,
                         LetsTalkChennaiBlockBanner,
+                        LetsTalkChennaiReelsBlock,
                        
                         MediaCarousel,
                         AboutSummerFestBlock,

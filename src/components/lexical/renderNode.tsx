@@ -17,6 +17,8 @@ import LetsTalkChennaiComponent from '@/blocks/LetsTalkBanner/Component'
 import AboutChennaiBlockComponent from '@/blocks/AboutChennaiBlock/Component'
 import { AboutUsBlockComponent } from '@/blocks/AboutUs/Component'
 import AboutletsTalkChennaiBlockComponent from '@/blocks/AboutLetsTalkChennaiBlock/component'
+import LetsTalkChennaiReelsBlockComponent from '@/blocks/LetsTalkChennaiReels/LetsTalkChennaiReelsBlockComponent'
+import LetsTalkChennaiFAQBlockComponent from '@/blocks/LetsTalkChennaiFAQ/LetsTalkChennaiFAQBlockComponent'
 
 export function renderNode(node: any, idx: number, eventData?: any): React.ReactNode {
   /* ------------------------------------------------
@@ -163,6 +165,18 @@ export function renderNode(node: any, idx: number, eventData?: any): React.React
       if (blockType === 'galleryVisualDiary') {
         return <GalleryVisualDiaryBlockComponent key={idx} {...node.fields} />
       }
+
+      if (blockType === 'letsTalkChennaiReels') {
+        return <LetsTalkChennaiReelsBlockComponent key={idx} {...node.fields} />
+      }
+
+            if (blockType === 'letsTalkChennaiFaq') {
+              return <LetsTalkChennaiFAQBlockComponent key={idx} {...node.fields} />
+            }
+
+
+      
+      
 
       console.warn('UNHANDLED BLOCK TYPE =>', blockType)
       return null
