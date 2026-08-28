@@ -30,7 +30,6 @@ const dirname = path.dirname(filename)
 
 export default buildConfig({
   admin: {
-    
     components: {
       beforeLogin: ['@/components/BeforeLogin'],
       beforeDashboard: ['@/components/BeforeDashboard'],
@@ -100,6 +99,22 @@ export default buildConfig({
       path: '/verify-otp',
       method: 'post',
       handler: verifyOTP,
+    },
+    {
+      path: '/robots.txt',
+      method: 'get',
+      handler: async () => {
+        const robotsTxt = `User-agent: *
+       Disallow: 
+       Sitemap: https://letstalkchennai.com/sitemap.xml`
+
+        return new Response(robotsTxt, {
+          headers: {
+            'Content-Type': 'text/plain',
+          },
+          status: 200,
+        })
+      },
     },
   ],
 

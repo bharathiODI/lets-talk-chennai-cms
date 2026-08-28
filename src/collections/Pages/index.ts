@@ -40,6 +40,7 @@ import { AboutChennaiBlock } from '@/blocks/AboutChennaiBlock/config'
 import { AboutLetsTalkChennaiBlock } from '@/blocks/AboutLetsTalkChennaiBlock/config'
 import { isNotAdmin } from '@/access/checkRole'
 import { LetsTalkChennaiReelsBlock } from '@/blocks/LetsTalkChennaiReels/config'
+import { LetsTalkChennaiFAQBlock } from '@/blocks/LetsTalkChennaiFAQ'
 
 export const Pages: CollectionConfig<'pages'> = {
   slug: 'pages',
@@ -116,7 +117,8 @@ export const Pages: CollectionConfig<'pages'> = {
                         MediaCarousel,
                         AboutSummerFestBlock,
                         VideoGalleryBlock,
-                        GalleryVisualDiaryBlock
+                        GalleryVisualDiaryBlock,
+                         LetsTalkChennaiFAQBlock
                       ],
                     }),
                     FixedToolbarFeature(),
