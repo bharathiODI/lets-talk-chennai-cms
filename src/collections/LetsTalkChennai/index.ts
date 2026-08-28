@@ -35,6 +35,7 @@ import { isNotAdmin } from '@/access/checkRole'
 import { isAdmin, isAdminAdminAccess } from '@/access/isAdmin'
 import { LetsTalkChennaiFAQBlock } from '@/blocks/LetsTalkChennaiFAQ'
 
+
 export const LetsTalkChennai: CollectionConfig<'lets-talks-chennai'> = {
   slug: 'lets-talks-chennai',
   // access: {
